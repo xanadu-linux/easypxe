@@ -69,7 +69,7 @@ case "$1" in
 	ubuntu)
 		iptables_clean
 		primeros
-		echo "dhcp-boot=pxelinux.0,roo,192.168.1.1" >> /etc/dnsmasq.conf
+		echo "dhcp-boot=pxelinux.0,root,192.168.1.1" >> /etc/dnsmasq.conf
 		systemctl restart dnsmasq.service
 		wget -O - http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-i386/current/images/netboot/netboot.tar.gz > /var/lib/tftpboot/netboot.tar.gz
 		cd /var/lib/tftpboot/
