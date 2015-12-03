@@ -10,7 +10,7 @@ Script to install all the software for pxe boot
 
 Like root user:
 
-    git clone https://github.com/QRDA-VE/easypxe.git
+    git clone https://github.com/sinfallas/easypxe.git
     cd easypxe
     bash easypxe {debian|ubuntu|mint}
     
