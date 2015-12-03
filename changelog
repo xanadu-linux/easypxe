@@ -1,4 +1,37 @@
-commit ee1ac4178a80a87449c1fca1d44d0ca9540202a7 (HEAD, origin/master, origin/HEAD, master)
+commit ebf50ee9f769f4ff0ae76e555b362bf81d2a7f16 (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Wed Dec 2 21:23:40 2015 -0430
+
+    * se agrega informacion para agregar al script
+
+commit 5a1eaa069cf65d05db32d60a9afb1a8170495364
+Merge: 0d811bb e309026
+Author: Jose Perez <sinfallas@users.noreply.github.com>
+Date:   Sat Nov 28 15:30:10 2015 -0430
+
+    Merge pull request #1 from QRDA-VE/master
+    
+    Little changes
+
+commit e309026ad19d4a487f529543983d87c2b21bb3ee
+Author: Richzendy <richzendy@gmail.com>
+Date:   Sat Nov 28 13:44:10 2015 -0430
+
+    Little bug fixed
+
+commit 4215d5b55272aeb7108af3c78ec58cc0bd6d7eaf
+Author: Richzendy <richzendy@gmail.com>
+Date:   Sat Nov 28 13:03:40 2015 -0430
+
+    Install instructions
+
+commit 0d811bb21767929afd33c1c239ee2cdd7767d0dd
+Author: jose perez <sinfallas@gmail.com>
+Date:   Sun Nov 22 14:18:56 2015 -0430
+
+    * changelog
+
+commit ee1ac4178a80a87449c1fca1d44d0ca9540202a7
 Author: jose perez <sinfallas@gmail.com>
 Date:   Sun Nov 22 14:18:43 2015 -0430
 
@@ -67,7 +100,7 @@ Date:   Sat Nov 21 23:38:38 2015 -0430
 
     * zenodo
 
-commit 12daaad05482789a4bbfceb55abfa16ccd0e06e2
+commit 12daaad05482789a4bbfceb55abfa16ccd0e06e2 (tag: v0.1)
 Author: jose perez <sinfallas@gmail.com>
 Date:   Sat Nov 21 23:32:33 2015 -0430
 
