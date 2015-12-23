@@ -1,4 +1,16 @@
-commit 087af3960bb002e3e50cfbc41707905f8f7ed9f3 (HEAD, origin/master, origin/HEAD, master)
+commit cb5a889c9123afcaa457ed639492227f1c5a929f (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Tue Dec 22 21:26:32 2015 -0430
+
+    * se crea el archivo todo
+
+commit a580ca4b5ba55b099b30399ddd61d55d6067ac0b
+Author: jose perez <sinfallas@gmail.com>
+Date:   Thu Dec 17 20:27:47 2015 -0430
+
+    * changelog
+
+commit 087af3960bb002e3e50cfbc41707905f8f7ed9f3
 Author: jose perez <sinfallas@gmail.com>
 Date:   Thu Dec 17 20:23:55 2015 -0430
 
