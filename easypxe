@@ -94,34 +94,3 @@ esac
 
 rm -f /run/$(basename $0).pid
 exit 0
-
-=================================
-
-#!/bin/bash
-if [[ $USER != root ]]; then
-echo "Error: Debe tener privilegios de ROOT"
-exit 0
-fi
-cd ~
-apt-get -y install isc-dhcp-server tftpd-hpa tftp-hpa xinetd apache2
-echo -e 'ddns-update-style none;'"\n"'allow booting;'"\n"'allow bootp;'"\n"'default-lease-time 600;'"\n"'max-lease-time 7200;'"\n"'log-facility local7;'"\n"'# labidiomas'"\n"'subnet 10.0.0.0 netmask 255.255.255.0 {'"\n"'	allow unknown-clients;'"\n"'	range dynamic-bootp 10.0.0.10 10.0.0.100;'"\n"'	filename "pxelinux.0";'"\n"'	option broadcast-address 10.0.0.255;'"\n"'	option routers 10.0.0.1;'"\n"'	}' > /etc/dhcp/dhcpd.conf
-service isc-dhcp-server restart
-echo -e '# /etc/default/tftpd-hpa'"\n"'TFTP_USERNAME="tftp"'"\n"'TFTP_DIRECTORY="/var/lib/tftpboot"'"\n"'RUN_DAEMON="yes"' > /etc/default/tftpd-hpa
-service tftpd-hpa restart
-echo -e "service tftp""\n""  {""\n""        disable                 = no""\n""        socket_type             = dgram""\n""        wait                    = yes""\n""        user                    = root""\n""        server                  = /usr/sbin/in.tftpd""\n""        server_args             = -v -s /var/lib/tftpboot""\n""        only_from   = 10.0.0.1/24""\n""        interface   = 10.0.0.1""\n""  }" > /etc/xinetd.d/tftp
-killall -HUP xinetd
-wget http://archive.ubuntu.com/ubuntu/dists/precise-updates/main/installer-amd64/current/images/raring-netboot/netboot.tar.gz
-tar -xvzf netboot.tar.gz -C /var/lib/tftpboot/
-echo -e "tmpfs /tmp tmpfs noatime,nodev 0 0" >> /etc/fstab
-mkdir -p /var/lib/tftpboot/ubuntu
-chown -R tftp:tftp /var/lib/tftpboot
-cd /var/www
-ln -s /var/lib/tftpboot/ubuntu/
-service apache2 restart
-cd /etc/init.d
-echo -e "#! /bin/sh""\n""### BEGIN INIT INFO""\n""# Provides:          PXE""\n""# Required-Start:""\n""# Required-Stop:""\n""# Default-Start:     2 3 4 5""\n""# Default-Stop:""\n""# Short-Description: PXE""\n""### END INIT INFO""\n""cp /home/usuario/ubuntu.iso /tmp""\n""mount -o loop /tmp/ubuntu.iso /var/lib/tftpboot/ubuntu""\n""service ssh stop""\n""exit 0" > /etc/init.d/pxe-run
-chmod -v +x /etc/init.d/pxe-run
-update-rc.d pxe-run start 96 2 3 4 5 .
-cd ~
-echo finalizado
-exit 0
