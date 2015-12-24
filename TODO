@@ -19,3 +19,15 @@ echo -e "#! /bin/sh""\n""### BEGIN INIT INFO""\n""# Provides:          PXE""\n""
 chmod -v +x /etc/init.d/pxe-run
 update-rc.d pxe-run start 96 2 3 4 5 .
 cd ~
+
+--------------------
+
+dhcp-range=192.168.0.200,192.168.0.250,12h
+dhcp-no-override
+enable-tftp
+tftp-root=/var/lib/tftpboot
+dhcp-boot=pxelinux.0
+
+----------------
+
+/lib/live/mount/rootfs/filesystem.squashfs *(ro,insecure,no_root_squash,no_subtree_check,async)
