@@ -1,4 +1,16 @@
-commit cb5a889c9123afcaa457ed639492227f1c5a929f (HEAD, origin/master, origin/HEAD, master)
+commit e218a1d30be4eb608515bffa30a53e20a13942b5 (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Thu Dec 24 19:21:51 2015 -0430
+
+    * se actualiza la documentacion
+
+commit 790068809a4ec30e34836ff3bf1d4946d10465ad
+Author: jose perez <sinfallas@gmail.com>
+Date:   Tue Dec 22 21:27:08 2015 -0430
+
+    * changelog
+
+commit cb5a889c9123afcaa457ed639492227f1c5a929f
 Author: jose perez <sinfallas@gmail.com>
 Date:   Tue Dec 22 21:26:32 2015 -0430
 
