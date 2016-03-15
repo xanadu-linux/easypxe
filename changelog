@@ -1,4 +1,16 @@
-commit 703ff685aa56100868def263694df4bd717f043d (HEAD, origin/master, origin/HEAD, master)
+commit d5d3de100377b1253b4cbb63503c41c2bbbe1b37 (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 14 21:58:30 2016 -0430
+
+    * se corrigen funciones
+
+commit 640238f24ebfc1e8e1a68994fa6589be27d57b26
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 14 21:55:21 2016 -0430
+
+    * changelog
+
+commit 703ff685aa56100868def263694df4bd717f043d
 Author: jose perez <sinfallas@gmail.com>
 Date:   Mon Mar 14 21:55:05 2016 -0430
 
