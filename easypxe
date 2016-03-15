@@ -28,8 +28,7 @@ function iptables_clean () {
 	iptables -P OUTPUT ACCEPT
 }
 
-
-function primeros () {
+function directorios () {
 	mkdir -p /var/lib/tftpboot/pxelinux.cfg
 	mkdir -p /opt/nfs
 
@@ -57,13 +56,11 @@ function primeros () {
 	mkdir -p /var/lib/tftpboot/CentOS/5.4/amd64
 	mkdir -p /opt/nfs/CentOS/5.4/i386
 	mkdir -p /opt/nfs/CentOS/5.4/amd64
-
 }
 
 function primeros () {
 	apt-get -q update
 	apt-get -y install dnsmasq nfs-kernel-server tftpd-hpa syslinux
-
 	echo "dhcp-range=192.168.1.200,192.168.1.250,12h" >> /etc/dnsmasq.conf
 	echo "dhcp-no-override" >> /etc/dnsmasq.conf
 	echo "enable-tftp" >> /etc/dnsmasq.conf
@@ -86,27 +83,21 @@ function limpieza () {
 	touch /root/.listo
 }
 
-iptables_clean
-primeros
+#ubuntu
 echo "dhcp-boot=pxelinux.0,root,192.168.1.1" >> /etc/dnsmasq.conf
 systemctl restart dnsmasq.service
 wget -O - http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-i386/current/images/netboot/netboot.tar.gz > /var/lib/tftpboot/netboot.tar.gz
 cd /var/lib/tftpboot/
 tar -xzf netboot.tar.gz
 rm -f /var/lib/tftpboot/netboot.tar.gz
-limpieza
 
-
-		iptables_clean
-		primeros
-		echo "dhcp-boot=pxelinux.0" >> /etc/dnsmasq.conf
-		systemctl restart dnsmasq.service
-		wget -O - http://httpredir.debian.org/debian/dists/jessie/main/installer-i386/current/images/netboot/netboot.tar.gz > /var/lib/tftpboot/netboot.tar.gz
-		cd /var/lib/tftpboot/
-		tar -xzf netboot.tar.gz
-		rm -f /var/lib/tftpboot/netboot.tar.gz
-		limpieza
-
+#debian
+echo "dhcp-boot=pxelinux.0" >> /etc/dnsmasq.conf
+systemctl restart dnsmasq.service
+wget -O - http://httpredir.debian.org/debian/dists/jessie/main/installer-i386/current/images/netboot/netboot.tar.gz > /var/lib/tftpboot/netboot.tar.gz
+cd /var/lib/tftpboot/
+tar -xzf netboot.tar.gz
+rm -f /var/lib/tftpboot/netboot.tar.gz
 
 rm -f /run/$(basename $0).pid
 exit 0
