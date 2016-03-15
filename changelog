@@ -1,4 +1,16 @@
-commit 9fc524b6a688e6d907bafe6fd00981b148b7dd28 (HEAD, origin/master, origin/HEAD, master)
+commit 703ff685aa56100868def263694df4bd717f043d (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 14 21:55:05 2016 -0430
+
+    * se elimina el uso de CASE
+
+commit e0a9eb05602337e63cdc6edcbce9f2abc9e0338d
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 14 21:54:47 2016 -0430
+
+    * changelog
+
+commit 9fc524b6a688e6d907bafe6fd00981b148b7dd28
 Author: jose perez <sinfallas@gmail.com>
 Date:   Mon Mar 14 21:54:23 2016 -0430
 
