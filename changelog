@@ -1,4 +1,17 @@
-commit d5d3de100377b1253b4cbb63503c41c2bbbe1b37 (HEAD, origin/master, origin/HEAD, master)
+commit 78ae3064a64299ca1ff54e7a4cdadbd10a52b8ce (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 14 22:02:07 2016 -0430
+
+    * se traslada el contenido de todo a estudiar.txt
+    * se actualiza el archivo todo con las cosas que faltan
+
+commit f19de769cd0a312981442d8e8324290a6b254474
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 14 21:58:56 2016 -0430
+
+    * changelog
+
+commit d5d3de100377b1253b4cbb63503c41c2bbbe1b37
 Author: jose perez <sinfallas@gmail.com>
 Date:   Mon Mar 14 21:58:30 2016 -0430
 
