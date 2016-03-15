@@ -97,8 +97,6 @@ rm -f /var/lib/tftpboot/netboot.tar.gz
 limpieza
 
 
-case "$1" in
-	debian)
 		iptables_clean
 		primeros
 		echo "dhcp-boot=pxelinux.0" >> /etc/dnsmasq.conf
@@ -108,13 +106,7 @@ case "$1" in
 		tar -xzf netboot.tar.gz
 		rm -f /var/lib/tftpboot/netboot.tar.gz
 		limpieza
-		;;
 
-	*)
-		echo "USO: $(basename $0) {debian}"
-		;;
-
-esac
 
 rm -f /run/$(basename $0).pid
 exit 0
