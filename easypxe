@@ -179,26 +179,50 @@ echo "	install fedora 12 (32-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
 echo "	endtext" >> /var/lib/tftpboot/fedora/fedora.menu
 
 echo "label 2" > /var/lib/tftpboot/opensuse/opensuse.menu
-echo "        menu label opensuse 11.2 (64-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "        kernel opensuse/11.2/amd64/linux" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "        append initrd=opensuse/11.2/amd64/initrd install=nfs://10.10.1.10/srv/install/opensuse/11.2/amd64 splash=silent ramdisk_size=65535 vga=791 barrier=off" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "        text help" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "        install opensuse 11.2 (64-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "        endtext" >> /var/lib/tftpboot/opensuse/opensuse.menu
+echo "	menu label opensuse 11.2 (64-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
+echo "	kernel opensuse/11.2/amd64/linux" >> /var/lib/tftpboot/opensuse/opensuse.menu
+echo "	append initrd=opensuse/11.2/amd64/initrd install=nfs://10.10.1.10/srv/install/opensuse/11.2/amd64 splash=silent ramdisk_size=65535 vga=791 barrier=off" >> /var/lib/tftpboot/opensuse/opensuse.menu
+echo "	text help" >> /var/lib/tftpboot/opensuse/opensuse.menu
+echo "	install opensuse 11.2 (64-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
+echo "	endtext" >> /var/lib/tftpboot/opensuse/opensuse.menu
 echo "label 1" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "        menu label opensuse 11.2 (32-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "        kernel opensuse/11.2/i386/linux" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "        append initrd=opensuse/11.2/i386/initrd install=nfs://10.10.1.10/srv/install/opensuse/11.2/i386 splash=silent ramdisk_size=65535 vga=791 barrier=off" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "        text help" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "        install opensuse 11.2 (32-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "        endtext" >> /var/lib/tftpboot/opensuse/opensuse.menu
+echo "	menu label opensuse 11.2 (32-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
+echo "	kernel opensuse/11.2/i386/linux" >> /var/lib/tftpboot/opensuse/opensuse.menu
+echo "	append initrd=opensuse/11.2/i386/initrd install=nfs://10.10.1.10/srv/install/opensuse/11.2/i386 splash=silent ramdisk_size=65535 vga=791 barrier=off" >> /var/lib/tftpboot/opensuse/opensuse.menu
+echo "	text help" >> /var/lib/tftpboot/opensuse/opensuse.menu
+echo "	install opensuse 11.2 (32-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
+echo "	endtext" >> /var/lib/tftpboot/opensuse/opensuse.menu
+
+echo "label 2" > /var/lib/tftpboot/centos/centos.menu
+echo "	menu label centos 5.4 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
+echo "	kernel centos/5.4/amd64/vmlinuz" >> /var/lib/tftpboot/centos/centos.menu
+echo "	append method=nfs:10.10.1.10:/srv/install/centos/5.4/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=centos/5.4/amd64/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/centos/centos.menu
+echo "	text help" >> /var/lib/tftpboot/centos/centos.menu
+echo "	install centos 5.4 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
+echo "	endtext" >> /var/lib/tftpboot/centos/centos.menu
+echo "label 1" >> /var/lib/tftpboot/centos/centos.menu
+echo "	menu label centos 5.4 (32-bit)" >> /var/lib/tftpboot/centos/centos.menu
+echo "	kernel centos/5.4/i386/vmlinuz" >> /var/lib/tftpboot/centos/centos.menu
+echo "	append method=nfs:10.10.1.10:/srv/install/centos/5.4/i386/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=centos/5.4/i386/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/centos/centos.menu
+echo "	text help" >> /var/lib/tftpboot/centos/centos.menu
+echo "	install centos 5.4 (32-bit)" >> /var/lib/tftpboot/centos/centos.menu
+echo "	endtext" >> /var/lib/tftpboot/centos/centos.menu
 
 
-
-
-
-
-
+echo "label 2" > /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	menu label ubuntu 9.10 (64-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	kernel ubuntu/9.10/amd64/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/9.10/amd64 initrd=ubuntu/9.10/amd64/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	boot the ubuntu 9.10 64-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "label 1" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	menu label ubuntu 9.10 (32-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	kernel ubuntu/9.10/i386/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/9.10/i386 initrd=ubuntu/9.10/i386/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	boot the ubuntu 9.10 32-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 
 }
 
