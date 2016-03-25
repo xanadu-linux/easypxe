@@ -56,21 +56,36 @@ function directorios () {
 	mkdir -p /opt/nfs/centos/7/amd64
 }
 
+function instalar () {
+	if ! [[ -f /root/.instalar ]]; then
+		ver=$(lsb_release -c | awk '{print $2}')
+		cp /etc/apt/sources.list /etc/apt/sources.list.old
+		echo "deb http://archive.ubuntu.com/ubuntu/ $ver main restricted universe multiverse" > /etc/apt/sources.list
+		echo "deb http://security.ubuntu.com/ubuntu/ $ver-security main restricted universe multiverse" >> /etc/apt/sources.list
+		echo "deb http://archive.ubuntu.com/ubuntu/ $ver-updates main restricted universe multiverse" >> /etc/apt/sources.list
+		apt-get -q update
+		apt-get -y install dnsmasq nfs-kernel-server tftpd-hpa syslinux
+		apt-get clean
+		mv -f /etc/apt/sources.list.old /etc/apt/sources.list
+		touch /root/.instalar
+	fi
+}
+
 function primeros () {
-	apt-get -q update
-	apt-get -y install dnsmasq nfs-kernel-server tftpd-hpa syslinux
-	apt-get clean
-	echo "dhcp-range=192.168.1.200,192.168.1.250,12h" >> /etc/dnsmasq.conf
-	echo "dhcp-boot=pxelinux.0,root,192.168.1.1" >> /etc/dnsmasq.conf
-	echo "dhcp-no-override" >> /etc/dnsmasq.conf
-	echo "enable-tftp" >> /etc/dnsmasq.conf
-	echo "tftp-root=/var/lib/tftpboot" >> /etc/dnsmasq.conf
-	systemctl restart dnsmasq.service
-	echo "/opt/nfs	*(rw,no_root_squash,async,no_subtree_check)" > /etc/exports
-	exportfs -a
-	cp /usr/lib/syslinux/pxelinux.0 /var/lib/tftpboot
-	cp /usr/lib/syslinux/vesamenu.c32 /var/lib/tftpboot/
-	cp /location/of/image/logo.png /var/lib/tftpboot/pxelinux.cfg/ 
+	if ! [[ -f /root/.primeros ]]; then
+		echo "dhcp-range=192.168.1.200,192.168.1.250,12h" >> /etc/dnsmasq.conf
+		echo "dhcp-boot=pxelinux.0,root,192.168.1.1" >> /etc/dnsmasq.conf
+		echo "dhcp-no-override" >> /etc/dnsmasq.conf
+		echo "enable-tftp" >> /etc/dnsmasq.conf
+		echo "tftp-root=/var/lib/tftpboot" >> /etc/dnsmasq.conf
+		systemctl restart dnsmasq.service
+		echo "/opt/nfs	*(rw,no_root_squash,async,no_subtree_check)" > /etc/exports
+		exportfs -a
+		cp /usr/lib/syslinux/pxelinux.0 /var/lib/tftpboot
+		cp /usr/lib/syslinux/vesamenu.c32 /var/lib/tftpboot/
+		cp /location/of/image/logo.png /var/lib/tftpboot/pxelinux.cfg/
+		touch /root/.primeros
+	fi
 }
 
 function limpieza () {
@@ -257,12 +272,16 @@ function bajar () {
 }
 
 function montar () {
+	# verificar si los paquetes que se copian de la instalacion de syslinux estan alli originalmente
 	# sacar informacion de las iso y ubicarla en su sitio
+	# actualizar los comandos de inicio en syslinux desde los respectivos iso
+	# buscar una imagen para el fondo de syslinux
 }
 
 directorios
 limpieza
 iptables_clean
+instalar
 primeros
 menu
 bajar
