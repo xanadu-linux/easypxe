@@ -1,4 +1,16 @@
-commit 1b218573f1e98793b30869dd1028b1e2a3bb9fe8 (HEAD, origin/master, origin/HEAD, master)
+commit c29120ef175d48a5ec13893a1505b1ab4c6e0a87 (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 19:02:31 2016 -0430
+
+    * se elimina el archivo estudiar
+
+commit 8365b3b2ca1719c1084ca0a280a63bc8c71e1dcd
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 19:01:13 2016 -0430
+
+    * changelog
+
+commit 1b218573f1e98793b30869dd1028b1e2a3bb9fe8
 Author: jose perez <sinfallas@gmail.com>
 Date:   Fri Mar 25 19:00:33 2016 -0430
 
