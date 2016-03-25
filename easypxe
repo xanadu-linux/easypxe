@@ -42,20 +42,20 @@ function directorios () {
 	mkdir -p /opt/nfs/Debian/jessie/i386
 	mkdir -p /opt/nfs/Debian/jessie/amd64
 
-	mkdir -p /var/lib/tftpboot/fedora/12/i386
-	mkdir -p /var/lib/tftpboot/fedora/12/amd64
-	mkdir -p /opt/nfs/fedora/12/i386
-	mkdir -p /opt/nfs/fedora/12/amd64
+	mkdir -p /var/lib/tftpboot/fedora/23/i386
+	mkdir -p /var/lib/tftpboot/fedora/23/amd64
+	mkdir -p /opt/nfs/fedora/23/i386
+	mkdir -p /opt/nfs/fedora/23/amd64
 
 	mkdir -p /var/lib/tftpboot/openSUSE/11.2/i386
 	mkdir -p /var/lib/tftpboot/openSUSE/11.2/amd64
 	mkdir -p /opt/nfs/openSUSE/11.2/i386
 	mkdir -p /opt/nfs/openSUSE/11.2/amd64
 
-	mkdir -p /var/lib/tftpboot/CentOS/5.4/i386
-	mkdir -p /var/lib/tftpboot/CentOS/5.4/amd64
-	mkdir -p /opt/nfs/CentOS/5.4/i386
-	mkdir -p /opt/nfs/CentOS/5.4/amd64
+	mkdir -p /var/lib/tftpboot/CentOS/7/i386
+	mkdir -p /var/lib/tftpboot/CentOS/7/amd64
+	mkdir -p /opt/nfs/CentOS/7/i386
+	mkdir -p /opt/nfs/CentOS/7/amd64
 }
 
 function primeros () {
