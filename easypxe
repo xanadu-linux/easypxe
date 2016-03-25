@@ -33,10 +33,10 @@ function directorios () {
 	mkdir -p /var/lib/tftpboot/pxelinux.cfg
 	mkdir -p /opt/nfs
 
-	mkdir -p /var/lib/tftpboot/ubuntu/16.04/i386
-	mkdir -p /var/lib/tftpboot/ubuntu/16.04/amd64
-	mkdir -p /opt/nfs/ubuntu/16.04/i386
-	mkdir -p /opt/nfs/ubuntu/16.04/amd64
+	mkdir -p /var/lib/tftpboot/ubuntu/14.04/i386
+	mkdir -p /var/lib/tftpboot/ubuntu/14.04/amd64
+	mkdir -p /opt/nfs/ubuntu/14.04/i386
+	mkdir -p /opt/nfs/ubuntu/14.04/amd64
 
 	mkdir -p /var/lib/tftpboot/debian/jessie/i386
 	mkdir -p /var/lib/tftpboot/debian/jessie/amd64
@@ -192,18 +192,18 @@ echo "	install centos 7 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
 echo "	endtext" >> /var/lib/tftpboot/centos/centos.menu
 
 echo "label 2" > /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	menu label ubuntu 16.04 (64-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	kernel ubuntu/16.04/amd64/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/16.04/amd64 initrd=ubuntu/16.04/amd64/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	menu label ubuntu 14.04 (64-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	kernel ubuntu/14.04/amd64/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/14.04/amd64 initrd=ubuntu/14.04/amd64/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	boot the ubuntu 16.04 64-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	boot the ubuntu 14.04 64-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 echo "label 1" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	menu label ubuntu 16.04 (32-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	kernel ubuntu/16.04/i386/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/16.04/i386 initrd=ubuntu/16.04/i386/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	menu label ubuntu 14.04 (32-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	kernel ubuntu/14.04/i386/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/14.04/i386 initrd=ubuntu/14.04/i386/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	boot the ubuntu 16.04 32-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	boot the ubuntu 14.04 32-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 
 # FALTA EL MENU DE DEBIAN
@@ -224,6 +224,8 @@ function bajar () {
 
 	wget -v -O "$HOME"/isos/centos-amd64.iso http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1511.iso
 }
+
+# sacar informacion de las iso y ubicarla en su sitio
 
 #000000000000000000000000
 
