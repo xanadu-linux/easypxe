@@ -1,4 +1,42 @@
-commit 48b7d1660fbf70fa79706e68d8873ae7bc6a23df (HEAD, origin/master, origin/HEAD, master)
+commit 2e0192b0f5f2178ea52acdcd7dd156b3aa52ef4b (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 18:44:18 2016 -0430
+
+    * se actualiza TODO
+    * se llaman las funciones
+
+commit 1e720dad03575c5677df3a18680642b97387b770
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 18:20:34 2016 -0430
+
+    * se crea el menu de debian
+    * se empiezan a colocar las verificaciones de descargas
+
+commit b16a1bf7c2c7286a135f72e236b6476c1f6fed37
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 18:11:29 2016 -0430
+
+    * version ubuntu
+
+commit 4275e6ab021939dbdf9d3d544d73ddd9863cd48d
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 18:09:28 2016 -0430
+
+    * se agregan las descargas de las imagenes iso
+
+commit 8484198740049014ca96c38e822fd388b37e5da4
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 18:06:15 2016 -0430
+
+    * se eliminan las referencias a 32 bits de centos y opensuse
+
+commit ad17b001f432f8df31793fded24cdacc6c283ce8
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 17:48:32 2016 -0430
+
+    * changelog
+
+commit 48b7d1660fbf70fa79706e68d8873ae7bc6a23df
 Author: jose perez <sinfallas@gmail.com>
 Date:   Fri Mar 25 17:47:55 2016 -0430
 
