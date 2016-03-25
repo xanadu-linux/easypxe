@@ -42,10 +42,10 @@ function directorios () {
 	mkdir -p /opt/nfs/Debian/jessie/i386
 	mkdir -p /opt/nfs/Debian/jessie/amd64
 
-	mkdir -p /var/lib/tftpboot/fedora/23/i386
-	mkdir -p /var/lib/tftpboot/fedora/23/amd64
-	mkdir -p /opt/nfs/fedora/23/i386
-	mkdir -p /opt/nfs/fedora/23/amd64
+	mkdir -p /var/lib/tftpboot/Fedora/23/i386
+	mkdir -p /var/lib/tftpboot/Fedora/23/amd64
+	mkdir -p /opt/nfs/Fedora/23/i386
+	mkdir -p /opt/nfs/Fedora/23/amd64
 
 	mkdir -p /var/lib/tftpboot/openSUSE/42.1/i386
 	mkdir -p /var/lib/tftpboot/openSUSE/42.1/amd64
@@ -150,8 +150,41 @@ echo "        Return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
 echo "        ENDTEXT" >> /var/lib/tftpboot/pxelinux.cfg/default
 echo "        MENU EXIT" >> /var/lib/tftpboot/pxelinux.cfg/default
 echo "        MENU SEPARATOR" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "        MENU INCLUDE debian/debian.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+echo "        MENU INCLUDE Debian/debian.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
 echo "MENU END" >> /var/lib/tftpboot/pxelinux.cfg/default
+
+echo "MENU TITLE  PXE Server" > pxelinux.cfg/pxe.conf
+echo "MENU BACKGROUND pxelinux.cfg/logo.png" >> pxelinux.cfg/pxe.conf
+echo "NOESCAPE 1" >> pxelinux.cfg/pxe.conf
+echo "ALLOWOPTIONS 1" >> pxelinux.cfg/pxe.conf
+echo "PROMPT 0" >> pxelinux.cfg/pxe.conf
+echo "menu width 80" >> pxelinux.cfg/pxe.conf
+echo "menu rows 14" >> pxelinux.cfg/pxe.conf
+echo "MENU TABMSGROW 24" >> pxelinux.cfg/pxe.conf
+echo "MENU MARGIN 10" >> pxelinux.cfg/pxe.conf
+echo "menu color border               30;44      #ffffffff #00000000 std" >> pxelinux.cfg/pxe.conf
+
+echo "LABEL 2" > /var/lib/tftpboot/Fedora/fedora.menu
+echo "        MENU LABEL Fedora 12 (64-bit)" >> /var/lib/tftpboot/Fedora/fedora.menu
+echo "        KERNEL fedora/12/amd64/vmlinuz" >> /var/lib/tftpboot/Fedora/fedora.menu
+echo "        APPEND method=nfs:10.10.1.10:/srv/install/fedora/12/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=fedora/12/amd64/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/Fedora/fedora.menu
+echo "        TEXT HELP" >> /var/lib/tftpboot/Fedora/fedora.menu
+echo "        Install Fedora 12 (64-bit)" >> /var/lib/tftpboot/Fedora/fedora.menu
+echo "        ENDTEXT" >> /var/lib/tftpboot/Fedora/fedora.menu
+echo "LABEL 1" >> /var/lib/tftpboot/Fedora/fedora.menu
+echo "        MENU LABEL fedora 12 (32-bit)" >> /var/lib/tftpboot/Fedora/fedora.menu
+echo "        KERNEL fedora/12/i386/vmlinuz" >> /var/lib/tftpboot/Fedora/fedora.menu
+echo "        APPEND method=nfs:10.10.1.10:/srv/install/fedora/12/i386/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=fedora/12/i386/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/Fedora/fedora.menu
+echo "        TEXT HELP" >> /var/lib/tftpboot/Fedora/fedora.menu
+echo "        Install Fedora 12 (32-bit)" >> /var/lib/tftpboot/Fedora/fedora.menu
+echo "        ENDTEXT" >> /var/lib/tftpboot/Fedora/fedora.menu
+
+
+
+
+
+
+
 
 
 }
