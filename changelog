@@ -1,4 +1,16 @@
-commit 45e024c71ab0c9aaf6a61a93ac4059b24e2eee07 (HEAD, origin/master, origin/HEAD, master)
+commit 1b218573f1e98793b30869dd1028b1e2a3bb9fe8 (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 19:00:33 2016 -0430
+
+    * se colocan comprobaciones de ejecucion de una funcion, eso permitira resumir el trabajo en caso de falla
+
+commit 631ccf5a6273cac381db3344ed1e4bb9dbd14868
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 18:58:20 2016 -0430
+
+    * changelog
+
+commit 45e024c71ab0c9aaf6a61a93ac4059b24e2eee07
 Author: jose perez <sinfallas@gmail.com>
 Date:   Fri Mar 25 18:44:41 2016 -0430
 
