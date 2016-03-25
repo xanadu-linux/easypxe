@@ -1,4 +1,16 @@
-commit ed2911f4ffc52ae16e860e9c2cbce86251a284b9 (HEAD, origin/master, origin/HEAD, master)
+commit 48b7d1660fbf70fa79706e68d8873ae7bc6a23df (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 17:47:55 2016 -0430
+
+    * ultimos detalles en los menus
+
+commit eed51a0b4b7b3f7bbf23de2fd7a300e109a8227a
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 17:42:32 2016 -0430
+
+    * changelog
+
+commit ed2911f4ffc52ae16e860e9c2cbce86251a284b9
 Author: jose perez <sinfallas@gmail.com>
 Date:   Fri Mar 25 17:42:13 2016 -0430
 
