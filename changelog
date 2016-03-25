@@ -1,4 +1,41 @@
-commit 78ae3064a64299ca1ff54e7a4cdadbd10a52b8ce (HEAD, origin/master, origin/HEAD, master)
+commit d25e43312b6b4645c0419b1997e2e5338fb9a2df (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 17:25:34 2016 -0430
+
+    * se agrega el menu de opensuse
+
+commit 776096dba1b97c07eb46ec800393a1ac813f8d63
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 17:14:41 2016 -0430
+
+    * se agrega el menu pxe
+    * se agrega el menu de fedora
+
+commit a1378937df866b07ea6819ec5764f739e44a91ed
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 17:05:09 2016 -0430
+
+    * se agrega el menu principal de syslinux
+
+commit 0786245a89aaf4f5185f414aee6218a4ff2ca4fe
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 16:03:07 2016 -0430
+
+    * se separa el codigo
+
+commit e09dd19b8b6245ee97adb1e2b5b731e8164864f8
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 15:52:31 2016 -0430
+
+    * se actualizan las versiones de las carpetas
+
+commit bc95811e4c0764faa9c3cf1db7809d9fd30d9fd8 (tag: v0.3)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 14 22:02:41 2016 -0430
+
+    * changelog
+
+commit 78ae3064a64299ca1ff54e7a4cdadbd10a52b8ce
 Author: jose perez <sinfallas@gmail.com>
 Date:   Mon Mar 14 22:02:07 2016 -0430
 
