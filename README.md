@@ -14,5 +14,5 @@ Like root user:
 git clone https://github.com/sinfallas/easypxe.git
 cd easypxe
 chmod +x easypxe
-./easypxe {debian|ubuntu|mint}
+./easypxe
 ```
