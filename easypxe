@@ -206,16 +206,45 @@ echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 echo "	boot the ubuntu 14.04 32-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 
-# FALTA EL MENU DE DEBIAN
-
+echo "label 2" > /var/lib/tftpboot/debian/debian.menu
+echo "	menu label debian jessie (64-bit)" >> /var/lib/tftpboot/debian/debian.menu
+echo "	kernel debian/jessie/amd64/vmlinuz" >> /var/lib/tftpboot/debian/debian.menu
+echo "	append boot=netboot=nfs nfsroot=10.10.1.10:/srv/install/debian/jessie/amd64 initrd=debian/jessie/amd64/initrd.lz" >> /var/lib/tftpboot/debian/debian.menu
+echo "	text help" >> /var/lib/tftpboot/debian/debian.menu
+echo "	boot the debian jessie 64-bit dvd" >> /var/lib/tftpboot/debian/debian.menu
+echo "	endtext" >> /var/lib/tftpboot/debian/debian.menu
+echo "label 1" >> /var/lib/tftpboot/debian/debian.menu
+echo "	menu label debian jessie (32-bit)" >> /var/lib/tftpboot/debian/debian.menu
+echo "	kernel debian/jessie/i386/vmlinuz" >> /var/lib/tftpboot/debian/debian.menu
+echo "	append boot=netboot=nfs nfsroot=10.10.1.10:/srv/install/debian/jessie/i386 initrd=debian/jessie/i386/initrd.lz" >> /var/lib/tftpboot/debian/debian.menu
+echo "	text help" >> /var/lib/tftpboot/debian/debian.menu
+echo "	boot the debian jessie 32-bit dvd" >> /var/lib/tftpboot/debian/debian.menu
+echo "	endtext" >> /var/lib/tftpboot/debian/debian.menu
 }
 
 function bajar () {
-	wget -v -O "$HOME"/isos/ubuntu-amd64.iso http://releases.ubuntu.com/14.04.4/ubuntu-14.04.4-desktop-amd64.iso
-	wget -v -O "$HOME"/isos/ubuntu-i386.iso http://releases.ubuntu.com/14.04.4/ubuntu-14.04.4-desktop-i386.iso
+	if ! [[ -f "$HOME"/isos/ubuntu-amd64.iso ]]; then
+		wget -v -O "$HOME"/isos/ubuntu-amd64.iso http://releases.ubuntu.com/14.04.4/ubuntu-14.04.4-desktop-amd64.iso
+	fi
+	if ! [[ -f "$HOME"/isos/ubuntu-i386.iso ]]; then
+		wget -v -O "$HOME"/isos/ubuntu-i386.iso http://releases.ubuntu.com/14.04.4/ubuntu-14.04.4-desktop-i386.iso
+	fi
 
-	wget -v -O "$HOME"/isos/fedora-amd64.iso https://download.fedoraproject.org/pub/fedora/linux/releases/23/Workstation/x86_64/iso/Fedora-Live-Workstation-x86_64-23-10.iso
-	wget -v -O "$HOME"/isos/fedora-i686.iso https://download.fedoraproject.org/pub/fedora/linux/releases/23/Workstation/i386/iso/Fedora-Live-Workstation-i686-23-10.iso
+	if ! [[ -f "$HOME"/isos/fedora-amd64.iso ]]; then
+		wget -v -O "$HOME"/isos/fedora-amd64.iso https://download.fedoraproject.org/pub/fedora/linux/releases/23/Workstation/x86_64/iso/Fedora-Live-Workstation-x86_64-23-10.iso
+	fi
+	if ! [[ -f "$HOME"/isos/fedora-i686.iso ]]; then
+		wget -v -O "$HOME"/isos/fedora-i686.iso https://download.fedoraproject.org/pub/fedora/linux/releases/23/Workstation/i386/iso/Fedora-Live-Workstation-i686-23-10.iso
+	fi
+
+
+
+
+
+
+
+	
+	
 
 	wget -v -O "$HOME"/isos/debian-amd64.iso http://cdimage.debian.org/debian-cd/8.3.0/amd64/iso-dvd/debian-8.3.0-amd64-DVD-1.iso
 	wget -v -O "$HOME"/isos/debian-i386.iso http://cdimage.debian.org/debian-cd/8.3.0/i386/iso-dvd/debian-8.3.0-i386-DVD-1.iso
