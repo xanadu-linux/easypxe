@@ -1,31 +1,31 @@
 #!/usr/bin/env bash
 # made by sinfallas <sinfallas@yahoo.com>
 # licence: gpl-2
-lc_all=c
-if [[ "$euid" != "0" ]]; then
-	echo -e "\e[00;31merror: debes ser root\e[00m"
+LC_ALL=C
+if [[ "$EUID" != "0" ]]; then
+	echo "error: debes ser root"
 	exit 1
 fi
 trap "rm -f /run/$(basename $0).pid; exit" 0 1 2 3 15
-echo "$bashpid" > /run/$(basename $0).pid
+echo "$BASHPID" > /run/$(basename $0).pid
 quien=$(who | cut -d' ' -f1 | sort | uniq)
 
 function iptables_clean () {
 	if [[ -f /root/.listo ]]; then
-		echo -e "\e[00;31merror: easypxe ya se ha ejecutado en este pc.\e[00m"
+		echo "error: easypxe ya se ha ejecutado en este pc."
 		exit 1
 	fi
 	iptables-save >> /home/"$quien"/iptables.save
-	iptables -f
-	iptables -x
-	iptables -z
-	iptables -t nat -f
-	iptables -t nat -x
-	iptables -t mangle -f
-	iptables -t mangle -x
-	iptables -p input accept
-	iptables -p forward accept
-	iptables -p output accept
+	iptables -F
+	iptables -X
+	iptables -Z
+	iptables -t nat -F
+	iptables -t nat -X
+	iptables -t mangle -F
+	iptables -t mangle -X
+	iptables -P INPUT ACCEPT
+	iptables -P FORWARD ACCEPT
+	iptables -P OUTPUT ACCEPT
 }
 
 function directorios () {
@@ -194,36 +194,34 @@ echo "	install opensuse 11.2 (32-bit)" >> /var/lib/tftpboot/opensuse/opensuse.me
 echo "	endtext" >> /var/lib/tftpboot/opensuse/opensuse.menu
 
 echo "label 2" > /var/lib/tftpboot/centos/centos.menu
-echo "	menu label centos 5.4 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
-echo "	kernel centos/5.4/amd64/vmlinuz" >> /var/lib/tftpboot/centos/centos.menu
-echo "	append method=nfs:10.10.1.10:/srv/install/centos/5.4/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=centos/5.4/amd64/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/centos/centos.menu
+echo "	menu label centos 7 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
+echo "	kernel centos/7/amd64/vmlinuz" >> /var/lib/tftpboot/centos/centos.menu
+echo "	append method=nfs:10.10.1.10:/srv/install/centos/7/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=centos/7/amd64/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/centos/centos.menu
 echo "	text help" >> /var/lib/tftpboot/centos/centos.menu
-echo "	install centos 5.4 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
+echo "	install centos 7 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
 echo "	endtext" >> /var/lib/tftpboot/centos/centos.menu
 echo "label 1" >> /var/lib/tftpboot/centos/centos.menu
-echo "	menu label centos 5.4 (32-bit)" >> /var/lib/tftpboot/centos/centos.menu
-echo "	kernel centos/5.4/i386/vmlinuz" >> /var/lib/tftpboot/centos/centos.menu
-echo "	append method=nfs:10.10.1.10:/srv/install/centos/5.4/i386/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=centos/5.4/i386/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/centos/centos.menu
+echo "	menu label centos 7 (32-bit)" >> /var/lib/tftpboot/centos/centos.menu
+echo "	kernel centos/7/i386/vmlinuz" >> /var/lib/tftpboot/centos/centos.menu
+echo "	append method=nfs:10.10.1.10:/srv/install/centos/7/i386/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=centos/7/i386/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/centos/centos.menu
 echo "	text help" >> /var/lib/tftpboot/centos/centos.menu
-echo "	install centos 5.4 (32-bit)" >> /var/lib/tftpboot/centos/centos.menu
+echo "	install centos 7 (32-bit)" >> /var/lib/tftpboot/centos/centos.menu
 echo "	endtext" >> /var/lib/tftpboot/centos/centos.menu
 
-
 echo "label 2" > /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	menu label ubuntu 9.10 (64-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	kernel ubuntu/9.10/amd64/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/9.10/amd64 initrd=ubuntu/9.10/amd64/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	menu label ubuntu 16.04 (64-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	kernel ubuntu/16.04/amd64/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/16.04/amd64 initrd=ubuntu/16.04/amd64/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	boot the ubuntu 9.10 64-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	boot the ubuntu 16.04 64-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 echo "label 1" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	menu label ubuntu 9.10 (32-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	kernel ubuntu/9.10/i386/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/9.10/i386 initrd=ubuntu/9.10/i386/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	menu label ubuntu 16.04 (32-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	kernel ubuntu/16.04/i386/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/16.04/i386 initrd=ubuntu/16.04/i386/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	boot the ubuntu 9.10 32-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+echo "	boot the ubuntu 16.04 32-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-
 }
 
 #000000000000000000000000
@@ -246,5 +244,6 @@ rm -f /var/lib/tftpboot/netboot.tar.gz
 
 #000000000000000000000000
 
+echo "Finalizado..."
 rm -f /run/$(basename $0).pid
 exit 0
