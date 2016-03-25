@@ -1,4 +1,16 @@
-commit 50612bcfe0f372cf4499f1f8649c61d17b69a8e1 (HEAD, origin/master, origin/HEAD, master)
+commit ed2911f4ffc52ae16e860e9c2cbce86251a284b9 (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 17:42:13 2016 -0430
+
+    * se agregan los ultimos menus
+
+commit 140e14bbc302838873018d5aa32dafc771088d52
+Author: jose perez <sinfallas@gmail.com>
+Date:   Fri Mar 25 17:28:27 2016 -0430
+
+    * changelog
+
+commit 50612bcfe0f372cf4499f1f8649c61d17b69a8e1
 Author: jose perez <sinfallas@gmail.com>
 Date:   Fri Mar 25 17:28:12 2016 -0430
 
