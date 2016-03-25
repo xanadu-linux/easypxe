@@ -6,16 +6,17 @@ if [[ "$EUID" != "0" ]]; then
 	echo "error: debes ser root"
 	exit 1
 fi
+
+if [[ -f /root/.listo ]]; then
+	echo "error: easypxe ya se ha ejecutado en este pc."
+	exit 1
+fi
+
 trap "rm -f /run/$(basename $0).pid; exit" 0 1 2 3 15
 echo "$BASHPID" > /run/$(basename $0).pid
-quien=$(who | cut -d' ' -f1 | sort | uniq)
 
 function iptables_clean () {
-	if [[ -f /root/.listo ]]; then
-		echo "error: easypxe ya se ha ejecutado en este pc."
-		exit 1
-	fi
-	iptables-save >> /home/"$quien"/iptables.save
+	iptables-save >> "$HOME"/iptables.save
 	iptables -F
 	iptables -X
 	iptables -Z
@@ -58,11 +59,14 @@ function directorios () {
 function primeros () {
 	apt-get -q update
 	apt-get -y install dnsmasq nfs-kernel-server tftpd-hpa syslinux
+	apt-get clean
 	echo "dhcp-range=192.168.1.200,192.168.1.250,12h" >> /etc/dnsmasq.conf
+	echo "dhcp-boot=pxelinux.0,root,192.168.1.1" >> /etc/dnsmasq.conf
 	echo "dhcp-no-override" >> /etc/dnsmasq.conf
 	echo "enable-tftp" >> /etc/dnsmasq.conf
 	echo "tftp-root=/var/lib/tftpboot" >> /etc/dnsmasq.conf
-	echo "/opt/nfs	*(rw,no_root_squash,async,no_subtree_check)" >> /etc/exports
+	systemctl restart dnsmasq.service
+	echo "/opt/nfs	*(rw,no_root_squash,async,no_subtree_check)" > /etc/exports
 	exportfs -a
 	cp /usr/lib/syslinux/pxelinux.0 /var/lib/tftpboot
 	cp /usr/lib/syslinux/vesamenu.c32 /var/lib/tftpboot/
@@ -71,155 +75,154 @@ function primeros () {
 
 function limpieza () {
 	history -c
-	apt-get clean
 	rm -rf /root/.local/share/trash/*
 	rm -rf /home/*/.local/share/trash/*
 	rm -rf /home/*/.cache/*
 	rm -rf /tmp/*
 	rm -rf /var/tmp/*
-	echo -e "\e[00;1;92mfinalizado...\e[00m"
-	touch /root/.listo
+	rm -rf /var/lib/tftpboot/*
+	rm -rf /opt/nfs/*
 }
 
 function menu () {
-echo "default vesamenu.c32" > /var/lib/tftpboot/pxelinux.cfg/default
-echo "timeout 600" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "ontimeout bootlocal" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "prompt 0" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu include pxelinux.cfg/pxe.conf" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "noescape 1" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "label bootlocal" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	localboot 0" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	boot to local hard disk" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu begin ubuntu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu title ubuntu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu include ubuntu/ubuntu.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu begin centos" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu title centos" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu include centos/centos.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu begin fedora" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu title fedora" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu include fedora/fedora.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu begin opensuse" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu title opensuse" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu include opensuse/opensuse.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu begin debian" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu title debian" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "	menu include debian/debian.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "default vesamenu.c32" > /var/lib/tftpboot/pxelinux.cfg/default
+	echo "timeout 600" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "ontimeout bootlocal" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "prompt 0" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu include pxelinux.cfg/pxe.conf" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "noescape 1" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "label bootlocal" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	localboot 0" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	boot to local hard disk" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu begin ubuntu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu title ubuntu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu include ubuntu/ubuntu.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu begin centos" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu title centos" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu include centos/centos.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu begin fedora" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu title fedora" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu include fedora/fedora.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu begin opensuse" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu title opensuse" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu include opensuse/opensuse.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu begin debian" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu title debian" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu include debian/debian.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
 
-echo "menu title  pxe server" > pxelinux.cfg/pxe.conf
-echo "menu background pxelinux.cfg/logo.png" >> pxelinux.cfg/pxe.conf
-echo "noescape 1" >> pxelinux.cfg/pxe.conf
-echo "allowoptions 1" >> pxelinux.cfg/pxe.conf
-echo "prompt 0" >> pxelinux.cfg/pxe.conf
-echo "menu width 80" >> pxelinux.cfg/pxe.conf
-echo "menu rows 14" >> pxelinux.cfg/pxe.conf
-echo "menu tabmsgrow 24" >> pxelinux.cfg/pxe.conf
-echo "menu margin 10" >> pxelinux.cfg/pxe.conf
-echo "menu color border               30;44      #ffffffff #00000000 std" >> pxelinux.cfg/pxe.conf
+	echo "menu title  pxe server" > pxelinux.cfg/pxe.conf
+	echo "menu background pxelinux.cfg/logo.png" >> pxelinux.cfg/pxe.conf
+	echo "noescape 1" >> pxelinux.cfg/pxe.conf
+	echo "allowoptions 1" >> pxelinux.cfg/pxe.conf
+	echo "prompt 0" >> pxelinux.cfg/pxe.conf
+	echo "menu width 80" >> pxelinux.cfg/pxe.conf
+	echo "menu rows 14" >> pxelinux.cfg/pxe.conf
+	echo "menu tabmsgrow 24" >> pxelinux.cfg/pxe.conf
+	echo "menu margin 10" >> pxelinux.cfg/pxe.conf
+	echo "menu color border               30;44      #ffffffff #00000000 std" >> pxelinux.cfg/pxe.conf
 
-echo "label 2" > /var/lib/tftpboot/fedora/fedora.menu
-echo "	menu label fedora 12 (64-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
-echo "	kernel fedora/12/amd64/vmlinuz" >> /var/lib/tftpboot/fedora/fedora.menu
-echo "	append method=nfs:10.10.1.10:/srv/install/fedora/12/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=fedora/12/amd64/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/fedora/fedora.menu
-echo "	text help" >> /var/lib/tftpboot/fedora/fedora.menu
-echo "	install fedora 12 (64-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
-echo "	endtext" >> /var/lib/tftpboot/fedora/fedora.menu
-echo "label 1" >> /var/lib/tftpboot/fedora/fedora.menu
-echo "	menu label fedora 12 (32-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
-echo "	kernel fedora/12/i386/vmlinuz" >> /var/lib/tftpboot/fedora/fedora.menu
-echo "	append method=nfs:10.10.1.10:/srv/install/fedora/12/i386/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=fedora/12/i386/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/fedora/fedora.menu
-echo "	text help" >> /var/lib/tftpboot/fedora/fedora.menu
-echo "	install fedora 12 (32-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
-echo "	endtext" >> /var/lib/tftpboot/fedora/fedora.menu
+	echo "label 2" > /var/lib/tftpboot/fedora/fedora.menu
+	echo "	menu label fedora 12 (64-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
+	echo "	kernel fedora/12/amd64/vmlinuz" >> /var/lib/tftpboot/fedora/fedora.menu
+	echo "	append method=nfs:10.10.1.10:/srv/install/fedora/12/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=fedora/12/amd64/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/fedora/fedora.menu
+	echo "	text help" >> /var/lib/tftpboot/fedora/fedora.menu
+	echo "	install fedora 12 (64-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
+	echo "	endtext" >> /var/lib/tftpboot/fedora/fedora.menu
+	echo "label 1" >> /var/lib/tftpboot/fedora/fedora.menu
+	echo "	menu label fedora 12 (32-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
+	echo "	kernel fedora/12/i386/vmlinuz" >> /var/lib/tftpboot/fedora/fedora.menu
+	echo "	append method=nfs:10.10.1.10:/srv/install/fedora/12/i386/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=fedora/12/i386/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/fedora/fedora.menu
+	echo "	text help" >> /var/lib/tftpboot/fedora/fedora.menu
+	echo "	install fedora 12 (32-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
+	echo "	endtext" >> /var/lib/tftpboot/fedora/fedora.menu
 
-echo "label 2" > /var/lib/tftpboot/opensuse/opensuse.menu
-echo "	menu label opensuse 11.2 (64-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "	kernel opensuse/11.2/amd64/linux" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "	append initrd=opensuse/11.2/amd64/initrd install=nfs://10.10.1.10/srv/install/opensuse/11.2/amd64 splash=silent ramdisk_size=65535 vga=791 barrier=off" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "	text help" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "	install opensuse 11.2 (64-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "	endtext" >> /var/lib/tftpboot/opensuse/opensuse.menu
+	echo "label 2" > /var/lib/tftpboot/opensuse/opensuse.menu
+	echo "	menu label opensuse 11.2 (64-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
+	echo "	kernel opensuse/11.2/amd64/linux" >> /var/lib/tftpboot/opensuse/opensuse.menu
+	echo "	append initrd=opensuse/11.2/amd64/initrd install=nfs://10.10.1.10/srv/install/opensuse/11.2/amd64 splash=silent ramdisk_size=65535 vga=791 barrier=off" >> /var/lib/tftpboot/opensuse/opensuse.menu
+	echo "	text help" >> /var/lib/tftpboot/opensuse/opensuse.menu
+	echo "	install opensuse 11.2 (64-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
+	echo "	endtext" >> /var/lib/tftpboot/opensuse/opensuse.menu
 
-echo "label 2" > /var/lib/tftpboot/centos/centos.menu
-echo "	menu label centos 7 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
-echo "	kernel centos/7/amd64/vmlinuz" >> /var/lib/tftpboot/centos/centos.menu
-echo "	append method=nfs:10.10.1.10:/srv/install/centos/7/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=centos/7/amd64/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/centos/centos.menu
-echo "	text help" >> /var/lib/tftpboot/centos/centos.menu
-echo "	install centos 7 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
-echo "	endtext" >> /var/lib/tftpboot/centos/centos.menu
+	echo "label 2" > /var/lib/tftpboot/centos/centos.menu
+	echo "	menu label centos 7 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
+	echo "	kernel centos/7/amd64/vmlinuz" >> /var/lib/tftpboot/centos/centos.menu
+	echo "	append method=nfs:10.10.1.10:/srv/install/centos/7/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=centos/7/amd64/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/centos/centos.menu
+	echo "	text help" >> /var/lib/tftpboot/centos/centos.menu
+	echo "	install centos 7 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
+	echo "	endtext" >> /var/lib/tftpboot/centos/centos.menu
 
-echo "label 2" > /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	menu label ubuntu 14.04 (64-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	kernel ubuntu/14.04/amd64/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/14.04/amd64 initrd=ubuntu/14.04/amd64/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	boot the ubuntu 14.04 64-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "label 1" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	menu label ubuntu 14.04 (32-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	kernel ubuntu/14.04/i386/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/14.04/i386 initrd=ubuntu/14.04/i386/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	boot the ubuntu 14.04 32-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "label 2" > /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	menu label ubuntu 14.04 (64-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	kernel ubuntu/14.04/amd64/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/14.04/amd64 initrd=ubuntu/14.04/amd64/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	boot the ubuntu 14.04 64-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "label 1" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	menu label ubuntu 14.04 (32-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	kernel ubuntu/14.04/i386/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/14.04/i386 initrd=ubuntu/14.04/i386/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	boot the ubuntu 14.04 32-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 
-echo "label 2" > /var/lib/tftpboot/debian/debian.menu
-echo "	menu label debian jessie (64-bit)" >> /var/lib/tftpboot/debian/debian.menu
-echo "	kernel debian/jessie/amd64/vmlinuz" >> /var/lib/tftpboot/debian/debian.menu
-echo "	append boot=netboot=nfs nfsroot=10.10.1.10:/srv/install/debian/jessie/amd64 initrd=debian/jessie/amd64/initrd.lz" >> /var/lib/tftpboot/debian/debian.menu
-echo "	text help" >> /var/lib/tftpboot/debian/debian.menu
-echo "	boot the debian jessie 64-bit dvd" >> /var/lib/tftpboot/debian/debian.menu
-echo "	endtext" >> /var/lib/tftpboot/debian/debian.menu
-echo "label 1" >> /var/lib/tftpboot/debian/debian.menu
-echo "	menu label debian jessie (32-bit)" >> /var/lib/tftpboot/debian/debian.menu
-echo "	kernel debian/jessie/i386/vmlinuz" >> /var/lib/tftpboot/debian/debian.menu
-echo "	append boot=netboot=nfs nfsroot=10.10.1.10:/srv/install/debian/jessie/i386 initrd=debian/jessie/i386/initrd.lz" >> /var/lib/tftpboot/debian/debian.menu
-echo "	text help" >> /var/lib/tftpboot/debian/debian.menu
-echo "	boot the debian jessie 32-bit dvd" >> /var/lib/tftpboot/debian/debian.menu
-echo "	endtext" >> /var/lib/tftpboot/debian/debian.menu
+	echo "label 2" > /var/lib/tftpboot/debian/debian.menu
+	echo "	menu label debian jessie (64-bit)" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	kernel debian/jessie/amd64/vmlinuz" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	append boot=netboot=nfs nfsroot=10.10.1.10:/srv/install/debian/jessie/amd64 initrd=debian/jessie/amd64/initrd.lz" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	text help" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	boot the debian jessie 64-bit dvd" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	endtext" >> /var/lib/tftpboot/debian/debian.menu
+	echo "label 1" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	menu label debian jessie (32-bit)" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	kernel debian/jessie/i386/vmlinuz" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	append boot=netboot=nfs nfsroot=10.10.1.10:/srv/install/debian/jessie/i386 initrd=debian/jessie/i386/initrd.lz" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	text help" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	boot the debian jessie 32-bit dvd" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	endtext" >> /var/lib/tftpboot/debian/debian.menu
 }
 
 function bajar () {
@@ -237,45 +240,35 @@ function bajar () {
 		wget -v -O "$HOME"/isos/fedora-i686.iso https://download.fedoraproject.org/pub/fedora/linux/releases/23/Workstation/i386/iso/Fedora-Live-Workstation-i686-23-10.iso
 	fi
 
+	if ! [[ -f "$HOME"/isos/debian-amd64.iso ]]; then
+		wget -v -O "$HOME"/isos/debian-amd64.iso http://cdimage.debian.org/debian-cd/8.3.0/amd64/iso-dvd/debian-8.3.0-amd64-DVD-1.iso
+	fi
+	if ! [[ -f "$HOME"/isos/debian-i386.iso ]]; then
+		wget -v -O "$HOME"/isos/debian-i386.iso http://cdimage.debian.org/debian-cd/8.3.0/i386/iso-dvd/debian-8.3.0-i386-DVD-1.iso
+	fi
 
+	if ! [[ -f "$HOME"/isos/opensuse-amd64.iso ]]; then
+		wget -v -O "$HOME"/isos/opensuse-amd64.iso http://suse.mirrors.tds.net/pub/opensuse/distribution/leap/42.1/iso/openSUSE-Leap-42.1-DVD-x86_64.iso
+	fi
 
-
-
-
-
-	
-	
-
-	wget -v -O "$HOME"/isos/debian-amd64.iso http://cdimage.debian.org/debian-cd/8.3.0/amd64/iso-dvd/debian-8.3.0-amd64-DVD-1.iso
-	wget -v -O "$HOME"/isos/debian-i386.iso http://cdimage.debian.org/debian-cd/8.3.0/i386/iso-dvd/debian-8.3.0-i386-DVD-1.iso
-
-	wget -v -O "$HOME"/isos/opensuse-amd64.iso http://suse.mirrors.tds.net/pub/opensuse/distribution/leap/42.1/iso/openSUSE-Leap-42.1-DVD-x86_64.iso
-
-	wget -v -O "$HOME"/isos/centos-amd64.iso http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1511.iso
+	if ! [[ -f "$HOME"/isos/centos-amd64.iso ]]; then
+		wget -v -O "$HOME"/isos/centos-amd64.iso http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1511.iso
+	fi
 }
 
-# sacar informacion de las iso y ubicarla en su sitio
+function montar () {
+	# sacar informacion de las iso y ubicarla en su sitio
+}
 
-#000000000000000000000000
+directorios
+limpieza
+iptables_clean
+primeros
+menu
+bajar
+montar
 
-#ubuntu
-echo "dhcp-boot=pxelinux.0,root,192.168.1.1" >> /etc/dnsmasq.conf
-systemctl restart dnsmasq.service
-wget -o - http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-i386/current/images/netboot/netboot.tar.gz > /var/lib/tftpboot/netboot.tar.gz
-cd /var/lib/tftpboot/
-tar -xzf netboot.tar.gz
-rm -f /var/lib/tftpboot/netboot.tar.gz
-
-#debian
-echo "dhcp-boot=pxelinux.0" >> /etc/dnsmasq.conf
-systemctl restart dnsmasq.service
-wget -o - http://httpredir.debian.org/debian/dists/jessie/main/installer-i386/current/images/netboot/netboot.tar.gz > /var/lib/tftpboot/netboot.tar.gz
-cd /var/lib/tftpboot/
-tar -xzf netboot.tar.gz
-rm -f /var/lib/tftpboot/netboot.tar.gz
-
-#000000000000000000000000
-
-echo "Finalizado..."
+touch /root/.listo
+echo "Finalizado, se recomienda reiniciar."
 rm -f /run/$(basename $0).pid
 exit 0

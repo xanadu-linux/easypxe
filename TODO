@@ -1,3 +1,2 @@
-* crear la funcion para descargar todo lo necesario para cada distro
-* crear el archivo de configuracion de syslinux
-* estudiar si es necesario crear la opcion para DBAN y demas utilidades
+* actualizar los comandos de inicio en syslinux desde los respectivos iso
+* 
