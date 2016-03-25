@@ -29,6 +29,7 @@ function iptables_clean () {
 }
 
 function directorios () {
+	mkdir -p "$HOME"/isos
 	mkdir -p /var/lib/tftpboot/pxelinux.cfg
 	mkdir -p /opt/nfs
 
@@ -47,14 +48,10 @@ function directorios () {
 	mkdir -p /opt/nfs/fedora/23/i386
 	mkdir -p /opt/nfs/fedora/23/amd64
 
-	mkdir -p /var/lib/tftpboot/opensuse/42.1/i386
 	mkdir -p /var/lib/tftpboot/opensuse/42.1/amd64
-	mkdir -p /opt/nfs/opensuse/42.1/i386
 	mkdir -p /opt/nfs/opensuse/42.1/amd64
 
-	mkdir -p /var/lib/tftpboot/centos/7/i386
 	mkdir -p /var/lib/tftpboot/centos/7/amd64
-	mkdir -p /opt/nfs/centos/7/i386
 	mkdir -p /opt/nfs/centos/7/amd64
 }
 
@@ -185,13 +182,6 @@ echo "	append initrd=opensuse/11.2/amd64/initrd install=nfs://10.10.1.10/srv/ins
 echo "	text help" >> /var/lib/tftpboot/opensuse/opensuse.menu
 echo "	install opensuse 11.2 (64-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
 echo "	endtext" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "label 1" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "	menu label opensuse 11.2 (32-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "	kernel opensuse/11.2/i386/linux" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "	append initrd=opensuse/11.2/i386/initrd install=nfs://10.10.1.10/srv/install/opensuse/11.2/i386 splash=silent ramdisk_size=65535 vga=791 barrier=off" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "	text help" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "	install opensuse 11.2 (32-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
-echo "	endtext" >> /var/lib/tftpboot/opensuse/opensuse.menu
 
 echo "label 2" > /var/lib/tftpboot/centos/centos.menu
 echo "	menu label centos 7 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
@@ -199,13 +189,6 @@ echo "	kernel centos/7/amd64/vmlinuz" >> /var/lib/tftpboot/centos/centos.menu
 echo "	append method=nfs:10.10.1.10:/srv/install/centos/7/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=centos/7/amd64/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/centos/centos.menu
 echo "	text help" >> /var/lib/tftpboot/centos/centos.menu
 echo "	install centos 7 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
-echo "	endtext" >> /var/lib/tftpboot/centos/centos.menu
-echo "label 1" >> /var/lib/tftpboot/centos/centos.menu
-echo "	menu label centos 7 (32-bit)" >> /var/lib/tftpboot/centos/centos.menu
-echo "	kernel centos/7/i386/vmlinuz" >> /var/lib/tftpboot/centos/centos.menu
-echo "	append method=nfs:10.10.1.10:/srv/install/centos/7/i386/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=centos/7/i386/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/centos/centos.menu
-echo "	text help" >> /var/lib/tftpboot/centos/centos.menu
-echo "	install centos 7 (32-bit)" >> /var/lib/tftpboot/centos/centos.menu
 echo "	endtext" >> /var/lib/tftpboot/centos/centos.menu
 
 echo "label 2" > /var/lib/tftpboot/ubuntu/ubuntu.menu
@@ -222,6 +205,26 @@ echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/16.
 echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 echo "	boot the ubuntu 16.04 32-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
 echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+
+# FALTA EL MENU DE DEBIAN
+
+}
+
+function bajar () {
+
+	wget -v -O "$HOME"/isos/fedora-amd64.iso https://download.fedoraproject.org/pub/fedora/linux/releases/23/Workstation/x86_64/iso/Fedora-Live-Workstation-x86_64-23-10.iso
+	wget -v -O "$HOME"/isos/fedora-i686.iso https://download.fedoraproject.org/pub/fedora/linux/releases/23/Workstation/i386/iso/Fedora-Live-Workstation-i686-23-10.iso
+
+	wget -v -O "$HOME"/isos/debian-amd64.iso http://cdimage.debian.org/debian-cd/8.3.0/amd64/iso-dvd/debian-8.3.0-amd64-DVD-1.iso
+	wget -v -O "$HOME"/isos/debian-i386.iso http://cdimage.debian.org/debian-cd/8.3.0/i386/iso-dvd/debian-8.3.0-i386-DVD-1.iso
+
+	wget -v -O "$HOME"/isos/centos-amd64.iso http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1511.iso
+
+	wget -v -O "$HOME"/isos/opensuse-amd64.iso http://suse.mirrors.tds.net/pub/opensuse/distribution/leap/42.1/iso/openSUSE-Leap-42.1-DVD-x86_64.iso
+
+
+ubuntu
+
 }
 
 #000000000000000000000000
