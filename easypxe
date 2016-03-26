@@ -49,8 +49,10 @@ function directorios () {
 	mkdir -p /opt/nfs/fedora/23/i386
 	mkdir -p /opt/nfs/fedora/23/amd64
 
-	mkdir -p /var/lib/tftpboot/centos/7/amd64
-	mkdir -p /opt/nfs/centos/7/amd64
+	mkdir -p /var/lib/tftpboot/xanadu/0.9.0/i386
+	mkdir -p /var/lib/tftpboot/xanadu/0.9.0/amd64
+	mkdir -p /opt/nfs/xanadu/0.9.0/i386
+	mkdir -p /opt/nfs/xanadu/0.9.0/amd64
 }
 
 function instalar () {
@@ -119,8 +121,8 @@ function menu () {
 	echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "	menu include ubuntu/ubuntu.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu begin centos" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu title centos" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu begin xanadu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "menu title xanadu" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
@@ -128,7 +130,7 @@ function menu () {
 	echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu include centos/centos.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "	menu include xanadu/xanadu.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "menu begin fedora" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "menu title fedora" >> /var/lib/tftpboot/pxelinux.cfg/default
@@ -210,13 +212,20 @@ function menu () {
 	echo "	install fedora 12 (32-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
 	echo "	endtext" >> /var/lib/tftpboot/fedora/fedora.menu
 
-	echo "label 2" > /var/lib/tftpboot/centos/centos.menu
-	echo "	menu label centos 7 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
-	echo "	kernel centos/7/amd64/vmlinuz" >> /var/lib/tftpboot/centos/centos.menu
-	echo "	append method=nfs:10.10.1.10:/srv/install/centos/7/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=centos/7/amd64/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/centos/centos.menu
-	echo "	text help" >> /var/lib/tftpboot/centos/centos.menu
-	echo "	install centos 7 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
-	echo "	endtext" >> /var/lib/tftpboot/centos/centos.menu
+	echo "label 2" > /var/lib/tftpboot/xanadu/xanadu.menu
+	echo "	menu label xanadu (64-bit)" >> /var/lib/tftpboot/xanadu/xanadu.menu
+	echo "	kernel xanadu/0.9.0/amd64/vmlinuz" >> /var/lib/tftpboot/xanadu/xanadu.menu
+	echo "	append method=nfs:10.10.1.10:/srv/install/xanadu/0.9.0/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=xanadu/0.9.0/amd64/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/xanadu/xanadu.menu
+	echo "	text help" >> /var/lib/tftpboot/xanadu/xanadu.menu
+	echo "	install xanadu (64-bit)" >> /var/lib/tftpboot/xanadu/xanadu.menu
+	echo "	endtext" >> /var/lib/tftpboot/xanadu/xanadu.menu
+	echo "label 1" >> /var/lib/tftpboot/xanadu/xanadu.menu
+	echo "	menu label xanadu (32-bit)" >> /var/lib/tftpboot/xanadu/xanadu.menu
+	echo "	kernel xanadu/0.9.0/i386/vmlinuz" >> /var/lib/tftpboot/xanadu/xanadu.menu
+	echo "	append method=nfs:10.10.1.10:/srv/install/xanadu/0.9.0/i386/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=xanadu/0.9.0/i386/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/xanadu/xanadu.menu
+	echo "	text help" >> /var/lib/tftpboot/xanadu/xanadu.menu
+	echo "	install xanadu (32-bit)" >> /var/lib/tftpboot/xanadu/xanadu.menu
+	echo "	endtext" >> /var/lib/tftpboot/xanadu/xanadu.menu
 }
 
 function bajar () {
@@ -226,6 +235,9 @@ function bajar () {
 
 	if ! [[ -f "$HOME"/isos/debian-amd64.iso ]]; then
 		wget -v -O "$HOME"/isos/debian-amd64.iso http://cdimage.debian.org/debian-cd/8.3.0/amd64/iso-dvd/debian-8.3.0-amd64-DVD-1.iso
+	fi
+	if ! [[ -f "$HOME"/isos/debian-i386.iso ]]; then
+		wget -v -O "$HOME"/isos/debian-i386.iso http://cdimage.debian.org/debian-cd/8.3.0/i386/iso-dvd/debian-8.3.0-i386-DVD-1.iso
 	fi
 	if ! [[ -f "$HOME"/isos/debian-i386.iso ]]; then
 		wget -v -O "$HOME"/isos/debian-i386.iso http://cdimage.debian.org/debian-cd/8.3.0/i386/iso-dvd/debian-8.3.0-i386-DVD-1.iso
@@ -245,8 +257,8 @@ function bajar () {
 		wget -v -O "$HOME"/isos/fedora-i686.iso https://download.fedoraproject.org/pub/fedora/linux/releases/23/Workstation/i386/iso/Fedora-Live-Workstation-i686-23-10.iso
 	fi
 
-	if ! [[ -f "$HOME"/isos/centos-amd64.iso ]]; then
-		wget -v -O "$HOME"/isos/centos-amd64.iso http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1511.iso
+	if ! [[ -f "$HOME"/isos/xanadu-amd64.iso ]]; then
+		wget -v -O "$HOME"/isos/xanadu-amd64.iso http://isoredirect.xanadu.org/xanadu/7/isos/x86_64/xanadu-7-x86_64-DVD-1511.iso
 	fi
 }
 
@@ -282,12 +294,16 @@ function montar () {
 
 
 
-	# verificar si los paquetes que se copian de la instalacion de syslinux estan alli originalmente
-	# verificar las firmas md5 de las imagenes iso
+
+
+
+
+
+
+	# sustituir xanadu por xanadu
 	# sacar informacion de las iso y ubicarla en su sitio
+	# verificar si los paquetes que se copian de la instalacion de syslinux estan alli originalmente
 	# actualizar los comandos de inicio en syslinux desde los respectivos iso
-	# sustituir centos por xanadu
-	# ordenar las distribuciones en el script
 
 #debian
 #ubuntu
