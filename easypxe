@@ -30,18 +30,19 @@ function iptables_clean () {
 }
 
 function directorios () {
+	mkdir -p /mnt/loop
 	mkdir -p "$HOME"/isos
 	mkdir -p /var/lib/tftpboot/pxelinux.cfg
-
-	mkdir -p /var/lib/tftpboot/ubuntu/14.04/i386
-	mkdir -p /var/lib/tftpboot/ubuntu/14.04/amd64
-	mkdir -p /opt/nfs/ubuntu/14.04/i386
-	mkdir -p /opt/nfs/ubuntu/14.04/amd64
 
 	mkdir -p /var/lib/tftpboot/debian/jessie/i386
 	mkdir -p /var/lib/tftpboot/debian/jessie/amd64
 	mkdir -p /opt/nfs/debian/jessie/i386
 	mkdir -p /opt/nfs/debian/jessie/amd64
+
+	mkdir -p /var/lib/tftpboot/ubuntu/14.04/i386
+	mkdir -p /var/lib/tftpboot/ubuntu/14.04/amd64
+	mkdir -p /opt/nfs/ubuntu/14.04/i386
+	mkdir -p /opt/nfs/ubuntu/14.04/amd64
 
 	mkdir -p /var/lib/tftpboot/fedora/23/i386
 	mkdir -p /var/lib/tftpboot/fedora/23/amd64
@@ -177,6 +178,36 @@ function menu () {
 	echo "menu margin 10" >> pxelinux.cfg/pxe.conf
 	echo "menu color border               30;44      #ffffffff #00000000 std" >> pxelinux.cfg/pxe.conf
 
+	echo "label 2" > /var/lib/tftpboot/debian/debian.menu
+	echo "	menu label debian jessie (64-bit)" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	kernel debian/jessie/amd64/vmlinuz" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	append boot=netboot=nfs nfsroot=10.10.1.10:/srv/install/debian/jessie/amd64 initrd=debian/jessie/amd64/initrd.lz" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	text help" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	boot the debian jessie 64-bit dvd" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	endtext" >> /var/lib/tftpboot/debian/debian.menu
+	echo "label 1" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	menu label debian jessie (32-bit)" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	kernel debian/jessie/i386/vmlinuz" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	append boot=netboot=nfs nfsroot=10.10.1.10:/srv/install/debian/jessie/i386 initrd=debian/jessie/i386/initrd.lz" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	text help" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	boot the debian jessie 32-bit dvd" >> /var/lib/tftpboot/debian/debian.menu
+	echo "	endtext" >> /var/lib/tftpboot/debian/debian.menu
+
+	echo "label 2" > /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	menu label ubuntu 14.04 (64-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	kernel ubuntu/14.04/amd64/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/14.04/amd64 initrd=ubuntu/14.04/amd64/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	boot the ubuntu 14.04 64-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "label 1" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	menu label ubuntu 14.04 (32-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	kernel ubuntu/14.04/i386/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/14.04/i386 initrd=ubuntu/14.04/i386/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	boot the ubuntu 14.04 32-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+
 	echo "label 2" > /var/lib/tftpboot/fedora/fedora.menu
 	echo "	menu label fedora 12 (64-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
 	echo "	kernel fedora/12/amd64/vmlinuz" >> /var/lib/tftpboot/fedora/fedora.menu
@@ -207,41 +238,18 @@ function menu () {
 	echo "	text help" >> /var/lib/tftpboot/centos/centos.menu
 	echo "	install centos 7 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
 	echo "	endtext" >> /var/lib/tftpboot/centos/centos.menu
-
-	echo "label 2" > /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	menu label ubuntu 14.04 (64-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	kernel ubuntu/14.04/amd64/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/14.04/amd64 initrd=ubuntu/14.04/amd64/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	boot the ubuntu 14.04 64-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "label 1" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	menu label ubuntu 14.04 (32-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	kernel ubuntu/14.04/i386/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/14.04/i386 initrd=ubuntu/14.04/i386/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	boot the ubuntu 14.04 32-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-
-	echo "label 2" > /var/lib/tftpboot/debian/debian.menu
-	echo "	menu label debian jessie (64-bit)" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	kernel debian/jessie/amd64/vmlinuz" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	append boot=netboot=nfs nfsroot=10.10.1.10:/srv/install/debian/jessie/amd64 initrd=debian/jessie/amd64/initrd.lz" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	text help" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	boot the debian jessie 64-bit dvd" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	endtext" >> /var/lib/tftpboot/debian/debian.menu
-	echo "label 1" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	menu label debian jessie (32-bit)" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	kernel debian/jessie/i386/vmlinuz" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	append boot=netboot=nfs nfsroot=10.10.1.10:/srv/install/debian/jessie/i386 initrd=debian/jessie/i386/initrd.lz" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	text help" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	boot the debian jessie 32-bit dvd" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	endtext" >> /var/lib/tftpboot/debian/debian.menu
 }
 
 function bajar () {
 	if ! [[ -f "$HOME"/isos/xanadu-grub.png ]]; then
 		wget -v -O "$HOME"/isos/xanadu-grub.png https://xanadulinux.files.wordpress.com/2016/03/xanadu-grub.png
+	fi
+
+	if ! [[ -f "$HOME"/isos/debian-amd64.iso ]]; then
+		wget -v -O "$HOME"/isos/debian-amd64.iso http://cdimage.debian.org/debian-cd/8.3.0/amd64/iso-dvd/debian-8.3.0-amd64-DVD-1.iso
+	fi
+	if ! [[ -f "$HOME"/isos/debian-i386.iso ]]; then
+		wget -v -O "$HOME"/isos/debian-i386.iso http://cdimage.debian.org/debian-cd/8.3.0/i386/iso-dvd/debian-8.3.0-i386-DVD-1.iso
 	fi
 
 	if ! [[ -f "$HOME"/isos/ubuntu-amd64.iso ]]; then
@@ -258,13 +266,6 @@ function bajar () {
 		wget -v -O "$HOME"/isos/fedora-i686.iso https://download.fedoraproject.org/pub/fedora/linux/releases/23/Workstation/i386/iso/Fedora-Live-Workstation-i686-23-10.iso
 	fi
 
-	if ! [[ -f "$HOME"/isos/debian-amd64.iso ]]; then
-		wget -v -O "$HOME"/isos/debian-amd64.iso http://cdimage.debian.org/debian-cd/8.3.0/amd64/iso-dvd/debian-8.3.0-amd64-DVD-1.iso
-	fi
-	if ! [[ -f "$HOME"/isos/debian-i386.iso ]]; then
-		wget -v -O "$HOME"/isos/debian-i386.iso http://cdimage.debian.org/debian-cd/8.3.0/i386/iso-dvd/debian-8.3.0-i386-DVD-1.iso
-	fi
-
 	if ! [[ -f "$HOME"/isos/opensuse-amd64.iso ]]; then
 		wget -v -O "$HOME"/isos/opensuse-amd64.iso http://suse.mirrors.tds.net/pub/opensuse/distribution/leap/42.1/iso/openSUSE-Leap-42.1-DVD-x86_64.iso
 	fi
@@ -275,11 +276,51 @@ function bajar () {
 }
 
 function montar () {
+	mount -o loop -t iso9660 "$HOME"/isos/debian-amd64.iso /mnt/loop
+	cp /mnt/loop/install.amd/vmlinuz /var/lib/tftpboot/debian/jessie/amd64
+	cp /mnt/loop/install.amd/initrd.gz /var/lib/tftpboot/debian/jessie/amd64
+	cp -R /mnt/loop/* /opt/nfs/debian/jessie/amd64
+	cp -R /mnt/loop/.disk /opt/nfs/debian/jessie/amd64
+	umount /mnt/loop
+
+	mount -o loop -t iso9660 "$HOME"/isos/ubuntu-i386.iso /mnt/loop
+	cp /mnt/loop/install.386/vmlinuz /var/lib/tftpboot/ubuntu/14.04/i386
+	cp /mnt/loop/install.386/initrd.gz /var/lib/tftpboot/ubuntu/14.04/i386
+	cp -R /mnt/loop/* /opt/nfs/ubuntu/14.04/i386
+	cp -R /mnt/loop/.disk /opt/nfs/ubuntu/14.04/i386
+	umount /mnt/loop
+
+	mount -o loop -t iso9660 "$HOME"/isos/ubuntu-amd64.iso /mnt/loop
+	cp /mnt/loop/casper/vmlinuz.efi /var/lib/tftpboot/ubuntu/14.04/amd64
+	cp /mnt/loop/casper/initrd.lz /var/lib/tftpboot/ubuntu/14.04/amd64
+	cp -R /mnt/loop/* /opt/nfs/ubuntu/14.04/amd64
+	cp -R /mnt/loop/.disk /opt/nfs/ubuntu/14.04/amd64
+	umount /mnt/loop
+
+	mount -o loop -t iso9660 "$HOME"/isos/ubuntu-i386.iso /mnt/loop
+	cp /mnt/loop/casper/vmlinuz.efi /var/lib/tftpboot/ubuntu/14.04/i386
+	cp /mnt/loop/casper/initrd.lz /var/lib/tftpboot/ubuntu/14.04/i386
+	cp -R /mnt/loop/* /opt/nfs/ubuntu/14.04/i386
+	cp -R /mnt/loop/.disk /opt/nfs/ubuntu/14.04/i386
+	umount /mnt/loop
+
+
+
+
 	# verificar si los paquetes que se copian de la instalacion de syslinux estan alli originalmente
 	# verificar las firmas md5 de las imagenes iso
 	# sacar informacion de las iso y ubicarla en su sitio
 	# actualizar los comandos de inicio en syslinux desde los respectivos iso
-	# buscar una imagen para el fondo de syslinux
+	# sustituir centos por xanadu
+	# ordenar las distribuciones en el script
+
+#debian
+#ubuntu
+#fedora
+#opensuse
+#xanadu
+
+
 }
 
 directorios
