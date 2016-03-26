@@ -49,9 +49,6 @@ function directorios () {
 	mkdir -p /opt/nfs/fedora/23/i386
 	mkdir -p /opt/nfs/fedora/23/amd64
 
-	mkdir -p /var/lib/tftpboot/opensuse/42.1/amd64
-	mkdir -p /opt/nfs/opensuse/42.1/amd64
-
 	mkdir -p /var/lib/tftpboot/centos/7/amd64
 	mkdir -p /opt/nfs/centos/7/amd64
 }
@@ -144,16 +141,6 @@ function menu () {
 	echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "	menu include fedora/fedora.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu begin opensuse" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu title opensuse" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu include opensuse/opensuse.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "menu begin debian" >> /var/lib/tftpboot/pxelinux.cfg/default
 	echo "menu title debian" >> /var/lib/tftpboot/pxelinux.cfg/default
@@ -223,14 +210,6 @@ function menu () {
 	echo "	install fedora 12 (32-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
 	echo "	endtext" >> /var/lib/tftpboot/fedora/fedora.menu
 
-	echo "label 2" > /var/lib/tftpboot/opensuse/opensuse.menu
-	echo "	menu label opensuse 11.2 (64-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
-	echo "	kernel opensuse/11.2/amd64/linux" >> /var/lib/tftpboot/opensuse/opensuse.menu
-	echo "	append initrd=opensuse/11.2/amd64/initrd install=nfs://10.10.1.10/srv/install/opensuse/11.2/amd64 splash=silent ramdisk_size=65535 vga=791 barrier=off" >> /var/lib/tftpboot/opensuse/opensuse.menu
-	echo "	text help" >> /var/lib/tftpboot/opensuse/opensuse.menu
-	echo "	install opensuse 11.2 (64-bit)" >> /var/lib/tftpboot/opensuse/opensuse.menu
-	echo "	endtext" >> /var/lib/tftpboot/opensuse/opensuse.menu
-
 	echo "label 2" > /var/lib/tftpboot/centos/centos.menu
 	echo "	menu label centos 7 (64-bit)" >> /var/lib/tftpboot/centos/centos.menu
 	echo "	kernel centos/7/amd64/vmlinuz" >> /var/lib/tftpboot/centos/centos.menu
@@ -264,10 +243,6 @@ function bajar () {
 	fi
 	if ! [[ -f "$HOME"/isos/fedora-i686.iso ]]; then
 		wget -v -O "$HOME"/isos/fedora-i686.iso https://download.fedoraproject.org/pub/fedora/linux/releases/23/Workstation/i386/iso/Fedora-Live-Workstation-i686-23-10.iso
-	fi
-
-	if ! [[ -f "$HOME"/isos/opensuse-amd64.iso ]]; then
-		wget -v -O "$HOME"/isos/opensuse-amd64.iso http://suse.mirrors.tds.net/pub/opensuse/distribution/leap/42.1/iso/openSUSE-Leap-42.1-DVD-x86_64.iso
 	fi
 
 	if ! [[ -f "$HOME"/isos/centos-amd64.iso ]]; then
