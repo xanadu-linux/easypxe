@@ -1,4 +1,17 @@
-commit 4a3d9954e4afbe5af9d3bb6e721ebaaa0db04448 (HEAD, origin/master, origin/HEAD, master)
+commit 0475bb7912642ace3b3651b3f78909feafab3825 (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Sat Mar 26 18:30:12 2016 -0430
+
+    * se ordenan las distribuciones en el script
+    * se agrega la funcion para montar los datos de debian y ubuntu
+
+commit b3673be0c5ff4030818f04cb67c6f72148d53566
+Author: jose perez <sinfallas@gmail.com>
+Date:   Sat Mar 26 15:20:39 2016 -0430
+
+    * changelog
+
+commit 4a3d9954e4afbe5af9d3bb6e721ebaaa0db04448
 Author: jose perez <sinfallas@gmail.com>
 Date:   Sat Mar 26 15:19:48 2016 -0430
 
