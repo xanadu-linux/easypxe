@@ -8,7 +8,7 @@ if [[ "$EUID" != "0" ]]; then
 fi
 
 if [[ -f /root/.listo ]]; then
-	echo "error: easypxe ya se ha ejecutado en este pc."
+	echo "error: easypxe ya se ha ejecutado en este pc"
 	exit 1
 fi
 
@@ -32,7 +32,6 @@ function iptables_clean () {
 function directorios () {
 	mkdir -p "$HOME"/isos
 	mkdir -p /var/lib/tftpboot/pxelinux.cfg
-	mkdir -p /opt/nfs
 
 	mkdir -p /var/lib/tftpboot/ubuntu/14.04/i386
 	mkdir -p /var/lib/tftpboot/ubuntu/14.04/amd64
@@ -83,7 +82,7 @@ function primeros () {
 		exportfs -a
 		cp /usr/lib/syslinux/pxelinux.0 /var/lib/tftpboot
 		cp /usr/lib/syslinux/vesamenu.c32 /var/lib/tftpboot/
-		cp /location/of/image/logo.png /var/lib/tftpboot/pxelinux.cfg/
+		cp "$HOME"/isos/xanadu-grub.png /var/lib/tftpboot/pxelinux.cfg/logo.png
 		touch /root/.primeros
 	fi
 }
@@ -241,6 +240,10 @@ function menu () {
 }
 
 function bajar () {
+	if ! [[ -f "$HOME"/isos/xanadu-grub.png ]]; then
+		wget -v -O "$HOME"/isos/xanadu-grub.png https://xanadulinux.files.wordpress.com/2016/03/xanadu-grub.png
+	fi
+
 	if ! [[ -f "$HOME"/isos/ubuntu-amd64.iso ]]; then
 		wget -v -O "$HOME"/isos/ubuntu-amd64.iso http://releases.ubuntu.com/14.04.4/ubuntu-14.04.4-desktop-amd64.iso
 	fi
@@ -282,6 +285,7 @@ function montar () {
 directorios
 limpieza
 iptables_clean
+bajar
 instalar
 primeros
 menu
