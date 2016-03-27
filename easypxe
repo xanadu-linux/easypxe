@@ -15,6 +15,29 @@ fi
 trap "rm -f /run/$(basename $0).pid; exit" 0 1 2 3 15
 echo "$BASHPID" > /run/$(basename $0).pid
 
+debian1="/var/lib/tftpboot/debian/jessie"
+debian2="/var/lib/tftpboot/debian"
+debian3="/opt/nfs/debian/jessie/i386"
+debian4="/opt/nfs/debian/jessie/amd64"
+
+ubuntu1="/var/lib/tftpboot/ubuntu/14.04"
+ubuntu2="/var/lib/tftpboot/ubuntu"
+ubuntu3="/opt/nfs/ubuntu/14.04/i386"
+ubuntu4="/opt/nfs/ubuntu/14.04/amd64"
+
+fedora1="/var/lib/tftpboot/fedora/23"
+fedora2="/var/lib/tftpboot/fedora"
+fedora3="/opt/nfs/fedora/23/i386"
+fedora4="/opt/nfs/fedora/23/amd64"
+
+xanadu1="/var/lib/tftpboot/xanadu/0.9.0"
+xanadu2="/var/lib/tftpboot/xanadu"
+xanadu3="/opt/nfs/xanadu/0.9.0/i386"
+xanadu4="/opt/nfs/xanadu/0.9.0/amd64"
+
+pxe="/var/lib/tftpboot/pxelinux.cfg"
+loop="/mnt/loop"
+
 function iptables_clean () {
 	iptables-save >> "$HOME"/iptables.save
 	iptables -F
@@ -30,29 +53,29 @@ function iptables_clean () {
 }
 
 function directorios () {
-	mkdir -p /mnt/loop
+	mkdir -p $loop
 	mkdir -p "$HOME"/isos
-	mkdir -p /var/lib/tftpboot/pxelinux.cfg
+	mkdir -p $pxe
 
-	mkdir -p /var/lib/tftpboot/debian/jessie/i386
-	mkdir -p /var/lib/tftpboot/debian/jessie/amd64
-	mkdir -p /opt/nfs/debian/jessie/i386
-	mkdir -p /opt/nfs/debian/jessie/amd64
+	mkdir -p $debian1
+	mkdir -p $debian2
+	mkdir -p $debian3
+	mkdir -p $debian4
 
-	mkdir -p /var/lib/tftpboot/ubuntu/14.04/i386
-	mkdir -p /var/lib/tftpboot/ubuntu/14.04/amd64
-	mkdir -p /opt/nfs/ubuntu/14.04/i386
-	mkdir -p /opt/nfs/ubuntu/14.04/amd64
+	mkdir -p $ubuntu1
+	mkdir -p $ubuntu2
+	mkdir -p $ubuntu3
+	mkdir -p $ubuntu4
 
-	mkdir -p /var/lib/tftpboot/fedora/23/i386
-	mkdir -p /var/lib/tftpboot/fedora/23/amd64
-	mkdir -p /opt/nfs/fedora/23/i386
-	mkdir -p /opt/nfs/fedora/23/amd64
+	mkdir -p $fedora1
+	mkdir -p $fedora2
+	mkdir -p $fedora3
+	mkdir -p $fedora4
 
-	mkdir -p /var/lib/tftpboot/xanadu/0.9.0/i386
-	mkdir -p /var/lib/tftpboot/xanadu/0.9.0/amd64
-	mkdir -p /opt/nfs/xanadu/0.9.0/i386
-	mkdir -p /opt/nfs/xanadu/0.9.0/amd64
+	mkdir -p $xanadu1
+	mkdir -p $xanadu2
+	mkdir -p $xanadu3
+	mkdir -p $xanadu4
 }
 
 function instalar () {
@@ -82,7 +105,7 @@ function primeros () {
 		exportfs -a
 		cp /usr/lib/syslinux/pxelinux.0 /var/lib/tftpboot
 		cp /usr/lib/syslinux/vesamenu.c32 /var/lib/tftpboot/
-		cp "$HOME"/isos/xanadu-grub.png /var/lib/tftpboot/pxelinux.cfg/logo.png
+		cp "$HOME"/isos/xanadu-grub.png $pxe/logo.png
 		touch /root/.primeros
 	fi
 }
@@ -99,133 +122,133 @@ function limpieza () {
 }
 
 function menu () {
-	echo "default vesamenu.c32" > /var/lib/tftpboot/pxelinux.cfg/default
-	echo "timeout 600" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "ontimeout bootlocal" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "prompt 0" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu include pxelinux.cfg/pxe.conf" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "noescape 1" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "label bootlocal" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	localboot 0" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	boot to local hard disk" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu begin ubuntu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu title ubuntu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu include ubuntu/ubuntu.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu begin xanadu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu title xanadu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu include xanadu/xanadu.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu begin fedora" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu title fedora" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu include fedora/fedora.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu begin debian" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu title debian" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	label previous" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu label previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	text help" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	return to previous menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	endtext" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu exit" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu separator" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "	menu include debian/debian.menu" >> /var/lib/tftpboot/pxelinux.cfg/default
-	echo "menu end" >> /var/lib/tftpboot/pxelinux.cfg/default
+	echo "default vesamenu.c32" > $pxe/default
+	echo "timeout 600" >> $pxe/default
+	echo "ontimeout bootlocal" >> $pxe/default
+	echo "prompt 0" >> $pxe/default
+	echo "menu include pxelinux.cfg/pxe.conf" >> $pxe/default
+	echo "noescape 1" >> $pxe/default
+	echo "label bootlocal" >> $pxe/default
+	echo "	localboot 0" >> $pxe/default
+	echo "	text help" >> $pxe/default
+	echo "	boot to local hard disk" >> $pxe/default
+	echo "	endtext" >> $pxe/default
+	echo "menu begin ubuntu" >> $pxe/default
+	echo "menu title ubuntu" >> $pxe/default
+	echo "	label previous" >> $pxe/default
+	echo "	menu label previous menu" >> $pxe/default
+	echo "	text help" >> $pxe/default
+	echo "	return to previous menu" >> $pxe/default
+	echo "	endtext" >> $pxe/default
+	echo "	menu exit" >> $pxe/default
+	echo "	menu separator" >> $pxe/default
+	echo "	menu include ubuntu/ubuntu.menu" >> $pxe/default
+	echo "menu end" >> $pxe/default
+	echo "menu begin xanadu" >> $pxe/default
+	echo "menu title xanadu" >> $pxe/default
+	echo "	label previous" >> $pxe/default
+	echo "	menu label previous menu" >> $pxe/default
+	echo "	text help" >> $pxe/default
+	echo "	return to previous menu" >> $pxe/default
+	echo "	endtext" >> $pxe/default
+	echo "	menu exit" >> $pxe/default
+	echo "	menu separator" >> $pxe/default
+	echo "	menu include xanadu/xanadu.menu" >> $pxe/default
+	echo "menu end" >> $pxe/default
+	echo "menu begin fedora" >> $pxe/default
+	echo "menu title fedora" >> $pxe/default
+	echo "	label previous" >> $pxe/default
+	echo "	menu label previous menu" >> $pxe/default
+	echo "	text help" >> $pxe/default
+	echo "	return to previous menu" >> $pxe/default
+	echo "	endtext" >> $pxe/default
+	echo "	menu exit" >> $pxe/default
+	echo "	menu separator" >> $pxe/default
+	echo "	menu include fedora/fedora.menu" >> $pxe/default
+	echo "menu end" >> $pxe/default
+	echo "menu end" >> $pxe/default
+	echo "menu begin debian" >> $pxe/default
+	echo "menu title debian" >> $pxe/default
+	echo "	label previous" >> $pxe/default
+	echo "	menu label previous menu" >> $pxe/default
+	echo "	text help" >> $pxe/default
+	echo "	return to previous menu" >> $pxe/default
+	echo "	endtext" >> $pxe/default
+	echo "	menu exit" >> $pxe/default
+	echo "	menu separator" >> $pxe/default
+	echo "	menu include debian/debian.menu" >> $pxe/default
+	echo "menu end" >> $pxe/default
 
-	echo "menu title  pxe server" > pxelinux.cfg/pxe.conf
-	echo "menu background pxelinux.cfg/logo.png" >> pxelinux.cfg/pxe.conf
-	echo "noescape 1" >> pxelinux.cfg/pxe.conf
-	echo "allowoptions 1" >> pxelinux.cfg/pxe.conf
-	echo "prompt 0" >> pxelinux.cfg/pxe.conf
-	echo "menu width 80" >> pxelinux.cfg/pxe.conf
-	echo "menu rows 14" >> pxelinux.cfg/pxe.conf
-	echo "menu tabmsgrow 24" >> pxelinux.cfg/pxe.conf
-	echo "menu margin 10" >> pxelinux.cfg/pxe.conf
-	echo "menu color border               30;44      #ffffffff #00000000 std" >> pxelinux.cfg/pxe.conf
+	echo "menu title  pxe server" > $pxe/pxe.conf
+	echo "menu background pxelinux.cfg/logo.png" >> $pxe/pxe.conf
+	echo "noescape 1" >> $pxe/pxe.conf
+	echo "allowoptions 1" >> $pxe/pxe.conf
+	echo "prompt 0" >> $pxe/pxe.conf
+	echo "menu width 80" >> $pxe/pxe.conf
+	echo "menu rows 14" >> $pxe/pxe.conf
+	echo "menu tabmsgrow 24" >> $pxe/pxe.conf
+	echo "menu margin 10" >> $pxe/pxe.conf
+	echo "menu color border               30;44      #ffffffff #00000000 std" >> $pxe/pxe.conf
 
-	echo "label 2" > /var/lib/tftpboot/debian/debian.menu
-	echo "	menu label debian jessie (64-bit)" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	kernel debian/jessie/amd64/vmlinuz" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	append boot=netboot=nfs nfsroot=10.10.1.10:/srv/install/debian/jessie/amd64 initrd=debian/jessie/amd64/initrd.lz" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	text help" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	boot the debian jessie 64-bit dvd" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	endtext" >> /var/lib/tftpboot/debian/debian.menu
-	echo "label 1" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	menu label debian jessie (32-bit)" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	kernel debian/jessie/i386/vmlinuz" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	append boot=netboot=nfs nfsroot=10.10.1.10:/srv/install/debian/jessie/i386 initrd=debian/jessie/i386/initrd.lz" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	text help" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	boot the debian jessie 32-bit dvd" >> /var/lib/tftpboot/debian/debian.menu
-	echo "	endtext" >> /var/lib/tftpboot/debian/debian.menu
+	echo "label 2" > $debian2/debian.menu
+	echo "	menu label debian jessie (64-bit)" >> $debian2/debian.menu
+	echo "	kernel debian/jessie/amd64/vmlinuz" >> $debian2/debian.menu
+	echo "	append boot=netboot=nfs nfsroot=10.10.1.10:/srv/install/debian/jessie/amd64 initrd=debian/jessie/amd64/initrd.lz" >> $debian2/debian.menu
+	echo "	text help" >> $debian2/debian.menu
+	echo "	boot the debian jessie 64-bit dvd" >> $debian2/debian.menu
+	echo "	endtext" >> $debian2/debian.menu
+	echo "label 1" >> $debian2/debian.menu
+	echo "	menu label debian jessie (32-bit)" >> $debian2/debian.menu
+	echo "	kernel debian/jessie/i386/vmlinuz" >> $debian2/debian.menu
+	echo "	append boot=netboot=nfs nfsroot=10.10.1.10:/srv/install/debian/jessie/i386 initrd=debian/jessie/i386/initrd.lz" >> $debian2/debian.menu
+	echo "	text help" >> $debian2/debian.menu
+	echo "	boot the debian jessie 32-bit dvd" >> $debian2/debian.menu
+	echo "	endtext" >> $debian2/debian.menu
 
-	echo "label 2" > /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	menu label ubuntu 14.04 (64-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	kernel ubuntu/14.04/amd64/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/14.04/amd64 initrd=ubuntu/14.04/amd64/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	boot the ubuntu 14.04 64-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "label 1" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	menu label ubuntu 14.04 (32-bit)" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	kernel ubuntu/14.04/i386/vmlinuz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/14.04/i386 initrd=ubuntu/14.04/i386/initrd.lz" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	text help" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	boot the ubuntu 14.04 32-bit dvd" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
-	echo "	endtext" >> /var/lib/tftpboot/ubuntu/ubuntu.menu
+	echo "label 2" > $ubuntu2/ubuntu.menu
+	echo "	menu label ubuntu 14.04 (64-bit)" >> $ubuntu2/ubuntu.menu
+	echo "	kernel ubuntu/14.04/amd64/vmlinuz" >> $ubuntu2/ubuntu.menu
+	echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/14.04/amd64 initrd=ubuntu/14.04/amd64/initrd.lz" >> $ubuntu2/ubuntu.menu
+	echo "	text help" >> $ubuntu2/ubuntu.menu
+	echo "	boot the ubuntu 14.04 64-bit dvd" >> $ubuntu2/ubuntu.menu
+	echo "	endtext" >> $ubuntu2/ubuntu.menu
+	echo "label 1" >> $ubuntu2/ubuntu.menu
+	echo "	menu label ubuntu 14.04 (32-bit)" >> $ubuntu2/ubuntu.menu
+	echo "	kernel ubuntu/14.04/i386/vmlinuz" >> $ubuntu2/ubuntu.menu
+	echo "	append boot=casper netboot=nfs nfsroot=10.10.1.10:/srv/install/ubuntu/14.04/i386 initrd=ubuntu/14.04/i386/initrd.lz" >> $ubuntu2/ubuntu.menu
+	echo "	text help" >> $ubuntu2/ubuntu.menu
+	echo "	boot the ubuntu 14.04 32-bit dvd" >> $ubuntu2/ubuntu.menu
+	echo "	endtext" >> $ubuntu2/ubuntu.menu
 
-	echo "label 2" > /var/lib/tftpboot/fedora/fedora.menu
-	echo "	menu label fedora 12 (64-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
-	echo "	kernel fedora/12/amd64/vmlinuz" >> /var/lib/tftpboot/fedora/fedora.menu
-	echo "	append method=nfs:10.10.1.10:/srv/install/fedora/12/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=fedora/12/amd64/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/fedora/fedora.menu
-	echo "	text help" >> /var/lib/tftpboot/fedora/fedora.menu
-	echo "	install fedora 12 (64-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
-	echo "	endtext" >> /var/lib/tftpboot/fedora/fedora.menu
-	echo "label 1" >> /var/lib/tftpboot/fedora/fedora.menu
-	echo "	menu label fedora 12 (32-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
-	echo "	kernel fedora/12/i386/vmlinuz" >> /var/lib/tftpboot/fedora/fedora.menu
-	echo "	append method=nfs:10.10.1.10:/srv/install/fedora/12/i386/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=fedora/12/i386/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/fedora/fedora.menu
-	echo "	text help" >> /var/lib/tftpboot/fedora/fedora.menu
-	echo "	install fedora 12 (32-bit)" >> /var/lib/tftpboot/fedora/fedora.menu
-	echo "	endtext" >> /var/lib/tftpboot/fedora/fedora.menu
+	echo "label 2" > $fedora2/fedora.menu
+	echo "	menu label fedora 12 (64-bit)" >> $fedora2/fedora.menu
+	echo "	kernel fedora/12/amd64/vmlinuz" >> $fedora2/fedora.menu
+	echo "	append method=nfs:10.10.1.10:/srv/install/fedora/12/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=fedora/12/amd64/initrd.img ramdisk_size=10000" >> $fedora2/fedora.menu
+	echo "	text help" >> $fedora2/fedora.menu
+	echo "	install fedora 12 (64-bit)" >> $fedora2/fedora.menu
+	echo "	endtext" >> $fedora2/fedora.menu
+	echo "label 1" >> $fedora2/fedora.menu
+	echo "	menu label fedora 12 (32-bit)" >> $fedora2/fedora.menu
+	echo "	kernel fedora/12/i386/vmlinuz" >> $fedora2/fedora.menu
+	echo "	append method=nfs:10.10.1.10:/srv/install/fedora/12/i386/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=fedora/12/i386/initrd.img ramdisk_size=10000" >> $fedora2/fedora.menu
+	echo "	text help" >> $fedora2/fedora.menu
+	echo "	install fedora 12 (32-bit)" >> $fedora2/fedora.menu
+	echo "	endtext" >> $fedora2/fedora.menu
 
-	echo "label 2" > /var/lib/tftpboot/xanadu/xanadu.menu
-	echo "	menu label xanadu (64-bit)" >> /var/lib/tftpboot/xanadu/xanadu.menu
-	echo "	kernel xanadu/0.9.0/amd64/vmlinuz" >> /var/lib/tftpboot/xanadu/xanadu.menu
-	echo "	append method=nfs:10.10.1.10:/srv/install/xanadu/0.9.0/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=xanadu/0.9.0/amd64/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/xanadu/xanadu.menu
-	echo "	text help" >> /var/lib/tftpboot/xanadu/xanadu.menu
-	echo "	install xanadu (64-bit)" >> /var/lib/tftpboot/xanadu/xanadu.menu
-	echo "	endtext" >> /var/lib/tftpboot/xanadu/xanadu.menu
-	echo "label 1" >> /var/lib/tftpboot/xanadu/xanadu.menu
-	echo "	menu label xanadu (32-bit)" >> /var/lib/tftpboot/xanadu/xanadu.menu
-	echo "	kernel xanadu/0.9.0/i386/vmlinuz" >> /var/lib/tftpboot/xanadu/xanadu.menu
-	echo "	append method=nfs:10.10.1.10:/srv/install/xanadu/0.9.0/i386/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=xanadu/0.9.0/i386/initrd.img ramdisk_size=10000" >> /var/lib/tftpboot/xanadu/xanadu.menu
-	echo "	text help" >> /var/lib/tftpboot/xanadu/xanadu.menu
-	echo "	install xanadu (32-bit)" >> /var/lib/tftpboot/xanadu/xanadu.menu
-	echo "	endtext" >> /var/lib/tftpboot/xanadu/xanadu.menu
+	echo "label 2" > $xanadu2/xanadu.menu
+	echo "	menu label xanadu (64-bit)" >> $xanadu2/xanadu.menu
+	echo "	kernel xanadu/0.9.0/amd64/vmlinuz" >> $xanadu2/xanadu.menu
+	echo "	append method=nfs:10.10.1.10:/srv/install/xanadu/0.9.0/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=xanadu/0.9.0/amd64/initrd.img ramdisk_size=10000" >> $xanadu2/xanadu.menu
+	echo "	text help" >> $xanadu2/xanadu.menu
+	echo "	install xanadu (64-bit)" >> $xanadu2/xanadu.menu
+	echo "	endtext" >> $xanadu2/xanadu.menu
+	echo "label 1" >> $xanadu2/xanadu.menu
+	echo "	menu label xanadu (32-bit)" >> $xanadu2/xanadu.menu
+	echo "	kernel xanadu/0.9.0/i386/vmlinuz" >> $xanadu2/xanadu.menu
+	echo "	append method=nfs:10.10.1.10:/srv/install/xanadu/0.9.0/i386/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=xanadu/0.9.0/i386/initrd.img ramdisk_size=10000" >> $xanadu2/xanadu.menu
+	echo "	text help" >> $xanadu2/xanadu.menu
+	echo "	install xanadu (32-bit)" >> $xanadu2/xanadu.menu
+	echo "	endtext" >> $xanadu2/xanadu.menu
 }
 
 function bajar () {
@@ -258,59 +281,63 @@ function bajar () {
 	fi
 
 	if ! [[ -f "$HOME"/isos/xanadu-amd64.iso ]]; then
-		wget -v -O "$HOME"/isos/xanadu-amd64.iso http://isoredirect.xanadu.org/xanadu/7/isos/x86_64/xanadu-7-x86_64-DVD-1511.iso
+		wget -v -O "$HOME"/isos/xanadu-amd64.iso http://xanadu.viserproject.com/descarga/xanadu-linux-0.9.0-amd64.iso
+	fi
+	if ! [[ -f "$HOME"/isos/xanadu-386.iso ]]; then
+		wget -v -O "$HOME"/isos/xanadu-i386.iso http://xanadu.viserproject.com/descarga/xanadu-linux-0.9.0-i386-nopae.iso
 	fi
 }
 
 function montar () {
 	mount -o loop -t iso9660 "$HOME"/isos/debian-amd64.iso /mnt/loop
-	cp /mnt/loop/install.amd/vmlinuz /var/lib/tftpboot/debian/jessie/amd64
-	cp /mnt/loop/install.amd/initrd.gz /var/lib/tftpboot/debian/jessie/amd64
-	cp -R /mnt/loop/* /opt/nfs/debian/jessie/amd64
-	cp -R /mnt/loop/.disk /opt/nfs/debian/jessie/amd64
+	cp /mnt/loop/install.amd/vmlinuz $debian1/amd64
+	cp /mnt/loop/install.amd/initrd.gz $debian1/amd64
+	cp -R /mnt/loop/* $debian4
+	cp -R /mnt/loop/.disk $debian4
 	umount /mnt/loop
 
-	mount -o loop -t iso9660 "$HOME"/isos/ubuntu-i386.iso /mnt/loop
-	cp /mnt/loop/install.386/vmlinuz /var/lib/tftpboot/ubuntu/14.04/i386
-	cp /mnt/loop/install.386/initrd.gz /var/lib/tftpboot/ubuntu/14.04/i386
-	cp -R /mnt/loop/* /opt/nfs/ubuntu/14.04/i386
-	cp -R /mnt/loop/.disk /opt/nfs/ubuntu/14.04/i386
+	mount -o loop -t iso9660 "$HOME"/isos/debian-i386.iso /mnt/loop
+	cp /mnt/loop/install.386/vmlinuz $debian1/i386
+	cp /mnt/loop/install.386/initrd.gz $debian1/i386
+	cp -R /mnt/loop/* $debian3
+	cp -R /mnt/loop/.disk $debian3
 	umount /mnt/loop
 
 	mount -o loop -t iso9660 "$HOME"/isos/ubuntu-amd64.iso /mnt/loop
-	cp /mnt/loop/casper/vmlinuz.efi /var/lib/tftpboot/ubuntu/14.04/amd64
-	cp /mnt/loop/casper/initrd.lz /var/lib/tftpboot/ubuntu/14.04/amd64
-	cp -R /mnt/loop/* /opt/nfs/ubuntu/14.04/amd64
-	cp -R /mnt/loop/.disk /opt/nfs/ubuntu/14.04/amd64
+	cp /mnt/loop/casper/vmlinuz.efi $ubuntu1/amd64
+	cp /mnt/loop/casper/initrd.lz $ubuntu1/amd64
+	cp -R /mnt/loop/* $ubuntu4
+	cp -R /mnt/loop/.disk $ubuntu4
 	umount /mnt/loop
 
 	mount -o loop -t iso9660 "$HOME"/isos/ubuntu-i386.iso /mnt/loop
-	cp /mnt/loop/casper/vmlinuz.efi /var/lib/tftpboot/ubuntu/14.04/i386
-	cp /mnt/loop/casper/initrd.lz /var/lib/tftpboot/ubuntu/14.04/i386
-	cp -R /mnt/loop/* /opt/nfs/ubuntu/14.04/i386
-	cp -R /mnt/loop/.disk /opt/nfs/ubuntu/14.04/i386
+	cp /mnt/loop/casper/vmlinuz.efi $ubuntu1/i386
+	cp /mnt/loop/casper/initrd.lz $ubuntu1/i386
+	cp -R /mnt/loop/* $ubuntu3
+	cp -R /mnt/loop/.disk $ubuntu3
 	umount /mnt/loop
 
+	mount -o loop -t iso9660 "$HOME"/isos/xanadu-amd64.iso /mnt/loop
+	cp /mnt/loop/live/vmlinuz $xanadu1/amd64
+	cp /mnt/loop/live/initrd.img $xanadu1/amd64
+	cp -R /mnt/loop/* $xanadu4
+	cp -R /mnt/loop/.disk $xanadu4
+	umount /mnt/loop
 
+	mount -o loop -t iso9660 "$HOME"/isos/xanadu-i386.iso /mnt/loop
+	cp /mnt/loop/live/vmlinuz $xanadu1/i386
+	cp /mnt/loop/live/initrd.img $xanadu1/i386
+	cp -R /mnt/loop/* $xanadu3
+	cp -R /mnt/loop/.disk $xanadu3
+	umount /mnt/loop
 
-
-
-
-
-
-
-
-	# sustituir xanadu por xanadu
-	# sacar informacion de las iso y ubicarla en su sitio
 	# verificar si los paquetes que se copian de la instalacion de syslinux estan alli originalmente
 	# actualizar los comandos de inicio en syslinux desde los respectivos iso
 
 #debian
 #ubuntu
 #fedora
-#opensuse
 #xanadu
-
 
 }
 
