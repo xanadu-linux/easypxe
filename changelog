@@ -1,4 +1,22 @@
-commit b6da552e5a089eea4816df289d3874ddcde9dde1 (HEAD, origin/master, origin/HEAD, master)
+commit c620714aff811f7769453455cdbd004f7714fcb7 (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Sat Mar 26 20:11:10 2016 -0430
+
+    * se sustituyen las direcciones de los directorios por variables
+
+commit 89aad70f8fa486c683fa197fe3cc89dbb5347488
+Author: jose perez <sinfallas@gmail.com>
+Date:   Sat Mar 26 18:52:09 2016 -0430
+
+    * se sustituye centos por xanadu
+
+commit f794d8359221ea8d1cb2dadac358f6dd8215ac36
+Author: jose perez <sinfallas@gmail.com>
+Date:   Sat Mar 26 18:38:35 2016 -0430
+
+    * changelog
+
+commit b6da552e5a089eea4816df289d3874ddcde9dde1
 Author: jose perez <sinfallas@gmail.com>
 Date:   Sat Mar 26 18:38:15 2016 -0430
 
