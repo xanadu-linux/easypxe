@@ -1,4 +1,16 @@
-commit e50125e944fcd0965a941ab34912df4c0d162a02 (HEAD, origin/master, origin/HEAD, master)
+commit ed982cae9dbc383ffae36b6129f58647e414e5cd (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Sat Mar 26 20:33:44 2016 -0430
+
+    * se coloca el comando de inicio correcto en xanadu
+
+commit 8154a8aa6ce59a36541693ab19752fc4897b3a7b
+Author: jose perez <sinfallas@gmail.com>
+Date:   Sat Mar 26 20:14:19 2016 -0430
+
+    * changelog
+
+commit e50125e944fcd0965a941ab34912df4c0d162a02
 Author: jose perez <sinfallas@gmail.com>
 Date:   Sat Mar 26 20:14:03 2016 -0430
 
