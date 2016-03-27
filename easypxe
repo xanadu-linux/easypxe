@@ -262,9 +262,6 @@ function bajar () {
 	if ! [[ -f "$HOME"/isos/debian-i386.iso ]]; then
 		wget -v -O "$HOME"/isos/debian-i386.iso http://cdimage.debian.org/debian-cd/8.3.0/i386/iso-dvd/debian-8.3.0-i386-DVD-1.iso
 	fi
-	if ! [[ -f "$HOME"/isos/debian-i386.iso ]]; then
-		wget -v -O "$HOME"/isos/debian-i386.iso http://cdimage.debian.org/debian-cd/8.3.0/i386/iso-dvd/debian-8.3.0-i386-DVD-1.iso
-	fi
 
 	if ! [[ -f "$HOME"/isos/ubuntu-amd64.iso ]]; then
 		wget -v -O "$HOME"/isos/ubuntu-amd64.iso http://releases.ubuntu.com/14.04.4/ubuntu-14.04.4-desktop-amd64.iso
@@ -317,6 +314,8 @@ function montar () {
 	cp -R /mnt/loop/.disk $ubuntu3
 	umount /mnt/loop
 
+	# aqui va fedora
+
 	mount -o loop -t iso9660 "$HOME"/isos/xanadu-amd64.iso /mnt/loop
 	cp /mnt/loop/live/vmlinuz $xanadu1/amd64
 	cp /mnt/loop/live/initrd.img $xanadu1/amd64
@@ -333,12 +332,6 @@ function montar () {
 
 	# verificar si los paquetes que se copian de la instalacion de syslinux estan alli originalmente
 	# actualizar los comandos de inicio en syslinux desde los respectivos iso
-
-#debian
-#ubuntu
-#fedora
-#xanadu
-
 }
 
 directorios
