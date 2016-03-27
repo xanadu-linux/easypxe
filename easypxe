@@ -101,7 +101,7 @@ function primeros () {
 		echo "enable-tftp" >> /etc/dnsmasq.conf
 		echo "tftp-root=/var/lib/tftpboot" >> /etc/dnsmasq.conf
 		systemctl restart dnsmasq.service
-		echo "/opt/nfs	*(rw,no_root_squash,async,no_subtree_check)" > /etc/exports
+		echo "/opt/nfs *(rw,no_root_squash,async,no_subtree_check)" > /etc/exports
 		exportfs -a
 		cp /usr/lib/syslinux/pxelinux.0 /var/lib/tftpboot
 		cp /usr/lib/syslinux/vesamenu.c32 /var/lib/tftpboot/
