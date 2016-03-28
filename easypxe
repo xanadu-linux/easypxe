@@ -107,6 +107,7 @@ function primeros () {
 		cp /usr/lib/syslinux/vesamenu.c32 /var/lib/tftpboot/vesamenu.c32
 		cp "$HOME"/isos/xanadu-grub.png $pxe/logo.png
 		touch /root/.primeros
+		# verificar si los paquetes que se copian de la instalacion de syslinux estan alli originalmente
 	fi
 }
 
@@ -328,8 +329,6 @@ function montar () {
 	cp -R /mnt/loop/* $xanadu3
 	cp -R /mnt/loop/.disk $xanadu3
 	umount /mnt/loop
-
-	# verificar si los paquetes que se copian de la instalacion de syslinux estan alli originalmente
 }
 
 directorios
