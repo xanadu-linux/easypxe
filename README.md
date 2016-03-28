@@ -16,3 +16,5 @@ cd easypxe
 chmod +x easypxe
 ./easypxe
 ```
+
+After run the script change the ip to 192.168.1.1

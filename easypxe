@@ -103,8 +103,8 @@ function primeros () {
 		systemctl restart dnsmasq.service
 		echo "/opt/nfs *(rw,no_root_squash,async,no_subtree_check)" > /etc/exports
 		exportfs -a
-		cp /usr/lib/syslinux/pxelinux.0 /var/lib/tftpboot
-		cp /usr/lib/syslinux/vesamenu.c32 /var/lib/tftpboot/
+		cp /usr/lib/syslinux/pxelinux.0 /var/lib/tftpboot/pxelinux.0
+		cp /usr/lib/syslinux/vesamenu.c32 /var/lib/tftpboot/vesamenu.c32
 		cp "$HOME"/isos/xanadu-grub.png $pxe/logo.png
 		touch /root/.primeros
 	fi
@@ -287,29 +287,29 @@ function bajar () {
 
 function montar () {
 	mount -o loop -t iso9660 "$HOME"/isos/debian-amd64.iso /mnt/loop
-	cp /mnt/loop/install.amd/vmlinuz $debian1/amd64
-	cp /mnt/loop/install.amd/initrd.gz $debian1/amd64
+	cp /mnt/loop/install.amd/vmlinuz $debian1/amd64/vmlinuz
+	cp /mnt/loop/install.amd/initrd.gz $debian1/amd64/initrd.gz
 	cp -R /mnt/loop/* $debian4
 	cp -R /mnt/loop/.disk $debian4
 	umount /mnt/loop
 
 	mount -o loop -t iso9660 "$HOME"/isos/debian-i386.iso /mnt/loop
-	cp /mnt/loop/install.386/vmlinuz $debian1/i386
-	cp /mnt/loop/install.386/initrd.gz $debian1/i386
+	cp /mnt/loop/install.386/vmlinuz $debian1/i386/vmlinuz
+	cp /mnt/loop/install.386/initrd.gz $debian1/i386/initrd.gz
 	cp -R /mnt/loop/* $debian3
 	cp -R /mnt/loop/.disk $debian3
 	umount /mnt/loop
 
 	mount -o loop -t iso9660 "$HOME"/isos/ubuntu-amd64.iso /mnt/loop
-	cp /mnt/loop/casper/vmlinuz.efi $ubuntu1/amd64
-	cp /mnt/loop/casper/initrd.lz $ubuntu1/amd64
+	cp /mnt/loop/casper/vmlinuz.efi $ubuntu1/amd64/vmlinuz.efi
+	cp /mnt/loop/casper/initrd.lz $ubuntu1/amd64/initrd.lz
 	cp -R /mnt/loop/* $ubuntu4
 	cp -R /mnt/loop/.disk $ubuntu4
 	umount /mnt/loop
 
 	mount -o loop -t iso9660 "$HOME"/isos/ubuntu-i386.iso /mnt/loop
-	cp /mnt/loop/casper/vmlinuz.efi $ubuntu1/i386
-	cp /mnt/loop/casper/initrd.lz $ubuntu1/i386
+	cp /mnt/loop/casper/vmlinuz.efi $ubuntu1/i386/vmlinuz.efi
+	cp /mnt/loop/casper/initrd.lz $ubuntu1/i386/initrd.lz
 	cp -R /mnt/loop/* $ubuntu3
 	cp -R /mnt/loop/.disk $ubuntu3
 	umount /mnt/loop
@@ -317,15 +317,15 @@ function montar () {
 	# aqui va fedora
 
 	mount -o loop -t iso9660 "$HOME"/isos/xanadu-amd64.iso /mnt/loop
-	cp /mnt/loop/live/vmlinuz $xanadu1/amd64
-	cp /mnt/loop/live/initrd.img $xanadu1/amd64
+	cp /mnt/loop/live/vmlinuz $xanadu1/amd64/vmlinuz
+	cp /mnt/loop/live/initrd.img $xanadu1/amd64/initrd.img
 	cp -R /mnt/loop/* $xanadu4
 	cp -R /mnt/loop/.disk $xanadu4
 	umount /mnt/loop
 
 	mount -o loop -t iso9660 "$HOME"/isos/xanadu-i386.iso /mnt/loop
-	cp /mnt/loop/live/vmlinuz $xanadu1/i386
-	cp /mnt/loop/live/initrd.img $xanadu1/i386
+	cp /mnt/loop/live/vmlinuz $xanadu1/i386/vmlinuz
+	cp /mnt/loop/live/initrd.img $xanadu1/i386/initrd.img
 	cp -R /mnt/loop/* $xanadu3
 	cp -R /mnt/loop/.disk $xanadu3
 	umount /mnt/loop
