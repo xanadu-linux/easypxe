@@ -1,4 +1,22 @@
-commit f45313bbf025694e612c4c31e5593807bced5eaf (HEAD, origin/master, origin/HEAD, master)
+commit 96c27936e0894df8a35cd168a85f08c0df9ce683 (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 28 16:57:48 2016 -0430
+
+    * se corrige el comando de arranque de ubuntu
+
+commit 645f9c46d55ec210d7078985c0527d685850d5ce
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 28 16:50:51 2016 -0430
+
+    * se corrige el comando de arranque de debian
+
+commit a7cf459e2fe416f2d8d10b9b6b39cc7f66bcaee8
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 28 14:36:29 2016 -0430
+
+    * changelog
+
+commit f45313bbf025694e612c4c31e5593807bced5eaf
 Author: jose perez <sinfallas@gmail.com>
 Date:   Mon Mar 28 14:34:24 2016 -0430
 
