@@ -1,4 +1,16 @@
-commit 96c27936e0894df8a35cd168a85f08c0df9ce683 (HEAD, origin/master, origin/HEAD, master)
+commit 017a1c037d062b8bd085ae541265b2d40f6bd42f (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 28 17:03:27 2016 -0430
+
+    * se comenta todo lo relacionado con fedora
+
+commit 5fa0b7b6cb1688d3cc4fdf802cddb55d7d9863e4
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 28 16:58:43 2016 -0430
+
+    * changelog
+
+commit 96c27936e0894df8a35cd168a85f08c0df9ce683
 Author: jose perez <sinfallas@gmail.com>
 Date:   Mon Mar 28 16:57:48 2016 -0430
 
