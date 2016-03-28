@@ -332,6 +332,7 @@ function montar () {
 
 	# actualizar los comandos de inicio en syslinux desde los respectivos iso
 	# verificar si los paquetes que se copian de la instalacion de syslinux estan alli originalmente
+	# agregar fedora a la funcion montar
 }
 
 directorios
