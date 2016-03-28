@@ -208,14 +208,14 @@ function menu () {
 	echo "label 2" > $ubuntu2/ubuntu.menu
 	echo "	menu label ubuntu 14.04 (64-bit)" >> $ubuntu2/ubuntu.menu
 	echo "	kernel ubuntu/14.04/amd64/vmlinuz" >> $ubuntu2/ubuntu.menu
-	echo "	append boot=casper netboot=nfs nfsroot=192.168.1.1:/opt/nfs/ubuntu/14.04/amd64 initrd=ubuntu/14.04/amd64/initrd.lz" >> $ubuntu2/ubuntu.menu
+	echo "	append boot=casper netboot=nfs nfsroot=192.168.1.1:/opt/nfs/ubuntu/14.04/amd64 initrd=ubuntu/14.04/amd64/initrd.lz file=192.168.1.1:/opt/nfs/ubuntu/14.04/amd64/preseed/ubuntu.seed quiet" >> $ubuntu2/ubuntu.menu
 	echo "	text help" >> $ubuntu2/ubuntu.menu
 	echo "	boot the ubuntu 14.04 64-bit dvd" >> $ubuntu2/ubuntu.menu
 	echo "	endtext" >> $ubuntu2/ubuntu.menu
 	echo "label 1" >> $ubuntu2/ubuntu.menu
 	echo "	menu label ubuntu 14.04 (32-bit)" >> $ubuntu2/ubuntu.menu
 	echo "	kernel ubuntu/14.04/i386/vmlinuz" >> $ubuntu2/ubuntu.menu
-	echo "	append boot=casper netboot=nfs nfsroot=192.168.1.1:/opt/nfs/ubuntu/14.04/i386 initrd=ubuntu/14.04/i386/initrd.lz" >> $ubuntu2/ubuntu.menu
+	echo "	append boot=casper netboot=nfs nfsroot=192.168.1.1:/opt/nfs/ubuntu/14.04/i386 initrd=ubuntu/14.04/i386/initrd.lz file=192.168.1.1:/opt/nfs/ubuntu/14.04/i386/preseed/ubuntu.seed quiet" >> $ubuntu2/ubuntu.menu
 	echo "	text help" >> $ubuntu2/ubuntu.menu
 	echo "	boot the ubuntu 14.04 32-bit dvd" >> $ubuntu2/ubuntu.menu
 	echo "	endtext" >> $ubuntu2/ubuntu.menu
