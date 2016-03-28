@@ -1,4 +1,18 @@
-commit 017a1c037d062b8bd085ae541265b2d40f6bd42f (HEAD, origin/master, origin/HEAD, master)
+commit 9659c0ad13663cfdfb5f0ac61aacbae6c63b53f1 (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 28 17:06:39 2016 -0430
+
+    * se actualiza el archivo readme.md
+    * cambios menores
+    * se cambia el nombre del archivo doc a url.txt
+
+commit 65aebf363397fc25b33ab29d6ec4f542350770bd
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 28 17:04:03 2016 -0430
+
+    * changelog
+
+commit 017a1c037d062b8bd085ae541265b2d40f6bd42f
 Author: jose perez <sinfallas@gmail.com>
 Date:   Mon Mar 28 17:03:27 2016 -0430
 
