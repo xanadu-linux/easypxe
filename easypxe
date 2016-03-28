@@ -25,10 +25,10 @@ ubuntu2="/var/lib/tftpboot/ubuntu"
 ubuntu3="/opt/nfs/ubuntu/14.04/i386"
 ubuntu4="/opt/nfs/ubuntu/14.04/amd64"
 
-fedora1="/var/lib/tftpboot/fedora/23"
-fedora2="/var/lib/tftpboot/fedora"
-fedora3="/opt/nfs/fedora/23/i386"
-fedora4="/opt/nfs/fedora/23/amd64"
+#fedora1="/var/lib/tftpboot/fedora/23"
+#fedora2="/var/lib/tftpboot/fedora"
+#fedora3="/opt/nfs/fedora/23/i386"
+#fedora4="/opt/nfs/fedora/23/amd64"
 
 xanadu1="/var/lib/tftpboot/xanadu/0.9.0"
 xanadu2="/var/lib/tftpboot/xanadu"
@@ -67,10 +67,10 @@ function directorios () {
 	mkdir -p $ubuntu3
 	mkdir -p $ubuntu4
 
-	mkdir -p $fedora1
-	mkdir -p $fedora2
-	mkdir -p $fedora3
-	mkdir -p $fedora4
+#	mkdir -p $fedora1
+#	mkdir -p $fedora2
+#	mkdir -p $fedora3
+#	mkdir -p $fedora4
 
 	mkdir -p $xanadu1
 	mkdir -p $xanadu2
@@ -155,18 +155,17 @@ function menu () {
 	echo "	menu separator" >> $pxe/default
 	echo "	menu include xanadu/xanadu.menu" >> $pxe/default
 	echo "menu end" >> $pxe/default
-	echo "menu begin fedora" >> $pxe/default
-	echo "menu title fedora" >> $pxe/default
-	echo "	label previous" >> $pxe/default
-	echo "	menu label previous menu" >> $pxe/default
-	echo "	text help" >> $pxe/default
-	echo "	return to previous menu" >> $pxe/default
-	echo "	endtext" >> $pxe/default
-	echo "	menu exit" >> $pxe/default
-	echo "	menu separator" >> $pxe/default
-	echo "	menu include fedora/fedora.menu" >> $pxe/default
-	echo "menu end" >> $pxe/default
-	echo "menu end" >> $pxe/default
+#	echo "menu begin fedora" >> $pxe/default
+#	echo "menu title fedora" >> $pxe/default
+#	echo "	label previous" >> $pxe/default
+#	echo "	menu label previous menu" >> $pxe/default
+#	echo "	text help" >> $pxe/default
+#	echo "	return to previous menu" >> $pxe/default
+#	echo "	endtext" >> $pxe/default
+#	echo "	menu exit" >> $pxe/default
+#	echo "	menu separator" >> $pxe/default
+#	echo "	menu include fedora/fedora.menu" >> $pxe/default
+#	echo "menu end" >> $pxe/default
 	echo "menu begin debian" >> $pxe/default
 	echo "menu title debian" >> $pxe/default
 	echo "	label previous" >> $pxe/default
@@ -220,20 +219,20 @@ function menu () {
 	echo "	boot the ubuntu 14.04 32-bit dvd" >> $ubuntu2/ubuntu.menu
 	echo "	endtext" >> $ubuntu2/ubuntu.menu
 
-	echo "label 2" > $fedora2/fedora.menu
-	echo "	menu label fedora 12 (64-bit)" >> $fedora2/fedora.menu
-	echo "	kernel fedora/12/amd64/vmlinuz" >> $fedora2/fedora.menu
-	echo "	append method=nfs:192.168.1.1:/opt/nfs/fedora/12/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=fedora/12/amd64/initrd.img ramdisk_size=10000" >> $fedora2/fedora.menu
-	echo "	text help" >> $fedora2/fedora.menu
-	echo "	install fedora 12 (64-bit)" >> $fedora2/fedora.menu
-	echo "	endtext" >> $fedora2/fedora.menu
-	echo "label 1" >> $fedora2/fedora.menu
-	echo "	menu label fedora 12 (32-bit)" >> $fedora2/fedora.menu
-	echo "	kernel fedora/12/i386/vmlinuz" >> $fedora2/fedora.menu
-	echo "	append method=nfs:192.168.1.1:/opt/nfs/fedora/12/i386/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=fedora/12/i386/initrd.img ramdisk_size=10000" >> $fedora2/fedora.menu
-	echo "	text help" >> $fedora2/fedora.menu
-	echo "	install fedora 12 (32-bit)" >> $fedora2/fedora.menu
-	echo "	endtext" >> $fedora2/fedora.menu
+#	echo "label 2" > $fedora2/fedora.menu
+#	echo "	menu label fedora 12 (64-bit)" >> $fedora2/fedora.menu
+#	echo "	kernel fedora/12/amd64/vmlinuz" >> $fedora2/fedora.menu
+#	echo "	append method=nfs:192.168.1.1:/opt/nfs/fedora/12/amd64/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=fedora/12/amd64/initrd.img ramdisk_size=10000" >> $fedora2/fedora.menu
+#	echo "	text help" >> $fedora2/fedora.menu
+#	echo "	install fedora 12 (64-bit)" >> $fedora2/fedora.menu
+#	echo "	endtext" >> $fedora2/fedora.menu
+#	echo "label 1" >> $fedora2/fedora.menu
+#	echo "	menu label fedora 12 (32-bit)" >> $fedora2/fedora.menu
+#	echo "	kernel fedora/12/i386/vmlinuz" >> $fedora2/fedora.menu
+#	echo "	append method=nfs:192.168.1.1:/opt/nfs/fedora/12/i386/ lang=us keymap=us ip=dhcp ksdevice=eth0 noipv6 initrd=fedora/12/i386/initrd.img ramdisk_size=10000" >> $fedora2/fedora.menu
+#	echo "	text help" >> $fedora2/fedora.menu
+#	echo "	install fedora 12 (32-bit)" >> $fedora2/fedora.menu
+#	echo "	endtext" >> $fedora2/fedora.menu
 
 	echo "label 2" > $xanadu2/xanadu.menu
 	echo "	menu label xanadu (64-bit)" >> $xanadu2/xanadu.menu
@@ -270,12 +269,12 @@ function bajar () {
 		wget -v -O "$HOME"/isos/ubuntu-i386.iso http://releases.ubuntu.com/14.04.4/ubuntu-14.04.4-desktop-i386.iso
 	fi
 
-	if ! [[ -f "$HOME"/isos/fedora-amd64.iso ]]; then
-		wget -v -O "$HOME"/isos/fedora-amd64.iso https://download.fedoraproject.org/pub/fedora/linux/releases/23/Workstation/x86_64/iso/Fedora-Live-Workstation-x86_64-23-10.iso
-	fi
-	if ! [[ -f "$HOME"/isos/fedora-i686.iso ]]; then
-		wget -v -O "$HOME"/isos/fedora-i686.iso https://download.fedoraproject.org/pub/fedora/linux/releases/23/Workstation/i386/iso/Fedora-Live-Workstation-i686-23-10.iso
-	fi
+#	if ! [[ -f "$HOME"/isos/fedora-amd64.iso ]]; then
+#		wget -v -O "$HOME"/isos/fedora-amd64.iso https://download.fedoraproject.org/pub/fedora/linux/releases/23/Workstation/x86_64/iso/Fedora-Live-Workstation-x86_64-23-10.iso
+#	fi
+#	if ! [[ -f "$HOME"/isos/fedora-i686.iso ]]; then
+#		wget -v -O "$HOME"/isos/fedora-i686.iso https://download.fedoraproject.org/pub/fedora/linux/releases/23/Workstation/i386/iso/Fedora-Live-Workstation-i686-23-10.iso
+#	fi
 
 	if ! [[ -f "$HOME"/isos/xanadu-amd64.iso ]]; then
 		wget -v -O "$HOME"/isos/xanadu-amd64.iso http://xanadu.viserproject.com/descarga/xanadu-linux-0.9.0-amd64.iso
@@ -330,9 +329,7 @@ function montar () {
 	cp -R /mnt/loop/.disk $xanadu3
 	umount /mnt/loop
 
-	# actualizar los comandos de inicio en syslinux desde los respectivos iso
 	# verificar si los paquetes que se copian de la instalacion de syslinux estan alli originalmente
-	# agregar fedora a la funcion montar
 }
 
 directorios
