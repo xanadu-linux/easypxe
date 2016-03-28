@@ -193,14 +193,14 @@ function menu () {
 	echo "label 2" > $debian2/debian.menu
 	echo "	menu label debian jessie (64-bit)" >> $debian2/debian.menu
 	echo "	kernel debian/jessie/amd64/vmlinuz" >> $debian2/debian.menu
-	echo "	append boot=netboot=nfs nfsroot=192.168.1.1:/opt/nfs/debian/jessie/amd64 initrd=debian/jessie/amd64/initrd.lz" >> $debian2/debian.menu
+	echo "	append netboot=nfs nfsroot=192.168.1.1:/opt/nfs/debian/jessie/amd64 initrd=debian/jessie/amd64/initrd.lz vga=788 -- quiet" >> $debian2/debian.menu
 	echo "	text help" >> $debian2/debian.menu
 	echo "	boot the debian jessie 64-bit dvd" >> $debian2/debian.menu
 	echo "	endtext" >> $debian2/debian.menu
 	echo "label 1" >> $debian2/debian.menu
 	echo "	menu label debian jessie (32-bit)" >> $debian2/debian.menu
 	echo "	kernel debian/jessie/i386/vmlinuz" >> $debian2/debian.menu
-	echo "	append boot=netboot=nfs nfsroot=192.168.1.1:/opt/nfs/debian/jessie/i386 initrd=debian/jessie/i386/initrd.lz" >> $debian2/debian.menu
+	echo "	append netboot=nfs nfsroot=192.168.1.1:/opt/nfs/debian/jessie/i386 initrd=debian/jessie/i386/initrd.lz vga=788 -- quiet" >> $debian2/debian.menu
 	echo "	text help" >> $debian2/debian.menu
 	echo "	boot the debian jessie 32-bit dvd" >> $debian2/debian.menu
 	echo "	endtext" >> $debian2/debian.menu
