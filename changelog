@@ -1,4 +1,16 @@
-commit 9659c0ad13663cfdfb5f0ac61aacbae6c63b53f1 (HEAD, origin/master, origin/HEAD, master)
+commit 17ea03c51db6036549e08ec74bc9d0af5de78ed9 (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Sun Apr 3 22:56:50 2016 -0430
+
+    * se agregan los servidores dns publicos
+
+commit 5093a0807bf685d01b8d8d78acf30082cca2a62a
+Author: jose perez <sinfallas@gmail.com>
+Date:   Mon Mar 28 17:07:28 2016 -0430
+
+    * changelog
+
+commit 9659c0ad13663cfdfb5f0ac61aacbae6c63b53f1
 Author: jose perez <sinfallas@gmail.com>
 Date:   Mon Mar 28 17:06:39 2016 -0430
 
